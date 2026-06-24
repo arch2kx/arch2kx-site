@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arch2k2x</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+
+    <!-- Since Firefox likes to do this sort of thing I have to add a hack to this... -->
+    <script>document.documentElement.style.visibility='hidden';document.documentElement.classList.add('preload');if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';document.documentElement.style.backgroundColor='#161616';document.documentElement.style.color='#cccccc';}else{document.documentElement.style.colorScheme='light';}</script>
+    <style>
+      html.dark, html.dark body { background-color: #161616 !important; color: #cccccc !important; }
+      .preload *, .preload *::before, .preload *::after { transition: none !important; }
+      .page { display: none; }
+    </style>
+
+    <!-- preload:images -->
+    <link rel="preload" as="image" type="image/webp" href="images/arch_giko_hoshi_new.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/arch2k2x_ba-style_light.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/arch2k2x_ba-style_dark.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/aronasay_banner.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/arona.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/ba_student_quiz_icon.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/construction.webp">
+    <!-- /preload:images -->
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"></noscript>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/webfonts/fa-brands-400.woff2">
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"></noscript>
+    <style>:root{--bg:#f3f4f6}.dark{--bg:#161616}html,body{background-color:var(--bg)}</style>
+    <script type="module" src="js/theme.js"></script>
+    <script type="module" src="js/terminal.js"></script>
+  </head>
+  <body>
+
+    <nav class="topbar">
+      <a href="#" class="topbar-home" data-page="main">
+        <img src="images/arch_giko_hoshi_new.webp" alt="Home" width="48" height="48" loading="eager">
+      </a>
+      <div class="topbar-nav">
+        <a class="nav-btn" data-page="about">About</a>
+        <a class="nav-btn" data-page="projects">Projects</a>
+        <a class="nav-btn" id="funStuffScrollTop" data-page="fun-stuff">Fun Stuff</a>
+      </div>
+      <div class="topbar-actions">
+        <button id="dark-toggle">
+          <i class="fa-solid fa-sun dark-icon-sun"></i>
+          <i class="fa-solid fa-moon dark-icon-moon"></i>
+        </button>
+        <a href="https://github.com/arch2kx" class="github-link">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://discord.com/users/817571382069559296" class="discord-link">
+          <i class="fa-brands fa-discord"></i>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Home -->
+    <section id="main" class="page main-main no-animate">
+      <div class="main-card">
+        <div class="main-logo-wrap">
+          <img src="images/arch2k2x_ba-style_light.webp" alt="arch2kx logo" class="main-logo logo-light">
+          <img src="images/arch2k2x_ba-style_dark.webp" alt="arch2kx logo" class="main-logo logo-dark">
+        </div>
+        <p class="main-tagline">Hello, I am Arch (btw)—I code stuff.</p>
+        <a class="explore-btn" data-page="projects">Explore →</a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="page about-main">
+      <div class="about-section">
+        <h1>So, whoami?</h1>
+        <p>Hello there, My name is Arch (totally not named after the Linux distribution).<br>I make projects as a hobby and also do some 3D modeling/texturing works.</br></p>
+        <p>I also enjoy playing some Blue Archive and developing a Roblox FPS project as well.</p>
+        <img class="about-img" src="images/izuna_nin.png" width="250" height="200" lt="Izuna">
+        <p>Caption: Nin nin! JSON-saved art in Sechi style.</p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="page projects-main">
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="card-banner banner-img">
+            <img class="card-banner-bg" src="images/aronasay_banner.webp" alt="">
+            <div class="card-icon-box">
+              <img src="images/arona.webp" alt="Aronasay">
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-title">Aronasay</p>
+            <p class="card-desc">Cowsay but Arona from Blue Archive!</p>
+            <span class="more-buttons">
+              <a href="https://github.com/arch2kx/aronasay/" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
+              <a href="https://arch2kx.github.io/aronasay/" class="website-btn" target="_blank" rel="noopener noreferrer">Website →</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-banner banner-img">
+            <img class="card-banner-bg" src="images/basq-banner.webp" alt="">
+            <div class="card-icon-box">
+              <img src="images/ba_student_quiz_icon.webp" alt="Blue Archive Student Quiz">
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-title">Blue Archive Student Quiz</p>
+            <p class="card-desc">Test your Blue Archive knowledge on students' traits!</p>
+            <span class="more-buttons">
+              <a href="https://github.com/arch2kx/archs-ba-student-quiz/" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
+              <a href="https://arch2kx.github.io/archs-ba-student-quiz/" class="website-btn" target="_blank" rel="noopener noreferrer">Website →</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-banner banner-img">
+            <img class="card-banner-bg" src="images/etp_banner.webp" alt="Eden Treaty Pandemonium Banner">
+            <div class="card-icon-box">
+              <img src="images/mika_etp_icon.webp" alt="">
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-title">Eden Treaty Pandemonium</p>
+            <p class="card-desc">Get the Trinity-loving princess to fight against Gehenna students!</p>
+            <a href="https://github.com/arch2kx/etp-raylib" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-banner banner-construction">
+            <div class="card-icon-box">
+              <img src="images/construction.webp" alt="Blue Archive Student Quiz">
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-title">Annoying BA Popup</p>
+            <p class="card-desc">Chrome/Firefox Extension that annoys you, I guess.</p>
+            <span class="ext-icon-frame">
+              <a>
+                <img src="images/chrome-icon.webp" alt="Chrome" class="ext-icon-cs" border="0" />
+              </a>
+              <a>
+                <img src="images/firefox-icon.webp" alt="Firefox" class="ext-icon-cs" border="0" />
+              </a>
+            </span>
+            <a class="coming-soon" target="_blank" rel="noopener noreferrer">Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-banner banner-img">
+            <img class="card-banner-bg" src="images/sechifyts-banner.png" alt="Sechify TypeScript Banner">
+            <div class="card-icon-box">
+              <img src="images/sechifyts-icon-128.webp" alt="SechifyTS">
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-title">SechifyTS (TypeScript)</p>
+            <p class="card-desc">Chrome/Firefox Extension forked from Chikenuwu's Sechify.</p>
+            <span class="ext-icon-frame">
+              <a>
+                <img src="images/chrome-icon.webp" alt="Chrome" class="ext-icon-cs" border="0" />
+              </a>
+              <a href="https://addons.mozilla.org/en-US/firefox/addon/sechify-typescript/">
+                <img src="images/firefox-icon.webp" alt="Firefox" class="ext-icon" border="0" />
+              </a>
+            </span>
+            <a href="https://github.com/arch2kx/SechifyTS" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fun Stuff -->
+    <section id="fun-stuff" class="page funstuff-main">
+      <div class="funstuff-inner">
+
+        <header class="funstuff-header">
+          <h1 class="funstuff-title">Fun Stuff</h1>
+          <p class="funstuff-subtitle">Place where I experiment with cool stuff.</p>
+        </header>
+
+        <!-- Terminal section -->
+        <div class="funstuff-section">
+          <h2 class="funstuff-section-label"># Terminal Emulator</h2>
+          <div class="funstuff-terminal-wrap">
+            <div class="terminal">
+              <div id="output"></div>
+              <div class="input-line">
+                <span class="c-val">arch2kx@archlinux ~ %</span>
+                <input type="text" id="commandInput" autocomplete="off" spellcheck="false">
+              </div>
+            </div>
+          </div>
+          <p class="funstuff-no-terminal">Terminal requires a desktop browser.</p>
+        </div>
+
+        <!-- More sections below — copy funstuff-section pattern -->
+        <!-- Example:
+        <div class="funstuff-section">
+          <h2 class="funstuff-section-label"># games</h2>
+          <div class="funstuff-grid">
+            <div class="funstuff-card"> ... </div>
+          </div>
+        </div>
+        -->
+
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>&copy; 2026 arch2kx. Licensed under MIT.</p>
+    </footer>
+
+  </body>
+</html>
