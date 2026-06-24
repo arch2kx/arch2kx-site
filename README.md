@@ -2,7 +2,7 @@
 Personal website for arch2kx.
 
 ## License
-MIT
+MIT\
 See `LICENSE` for details.
 
 ## Credits
