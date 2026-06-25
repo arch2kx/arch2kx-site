@@ -1,3 +1,5 @@
+// Terminal in Fun Stuff
+
 const input = document.getElementById('commandInput') as HTMLInputElement;
 const output = document.getElementById('output') as HTMLElement;
 const funStuff = document.getElementById('fun-stuff') as HTMLElement;
@@ -10,6 +12,7 @@ function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;');
 }
 
+// Our default neofetch logo
 function neofetchOutput(): string {
   const logo: string[] = [
     '                   -`',
@@ -55,6 +58,7 @@ function neofetchOutput(): string {
   const lines: string[] = [];
   const total = Math.max(logo.length, info.length);
 
+  // Prin the neofetch output
   for (let i = 0; i < total; i++) {
     const logoLine = (logo[i] ?? '').padEnd(LOGO_WIDTH);
     const infoLine = info[i] ?? '';
@@ -63,6 +67,7 @@ function neofetchOutput(): string {
     );
   }
 
+  // Color swatch
   const normal  = ['#1c1c1c','#d94133','#1dd35f','#d3b81d','#1081d6','#5133d9','#10b3d6','#d6d6d6'];
   const bright  = ['#555753','#d94133','#1dd35f','#d3b81d','#1081d6','#5133d9','#10b3d6','#f6f6f6'];
   const pad = ''.padEnd(LOGO_WIDTH + 2);
@@ -73,6 +78,7 @@ function neofetchOutput(): string {
   return lines.join('');
 }
 
+// Init commands
 const commands: Record<string, () => string> = {
   neofetch: () => neofetchOutput(),
 
@@ -104,6 +110,7 @@ function handleCommand(raw: string): void {
     return;
   }
 
+  // Trigger a 'totally secret' command
   if (cmd === 'sudo rm -rf /') {
     appendOutput('<div><span class="c-err">zsh: permission denied: bro</span></div>');
     return;

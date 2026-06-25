@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   });
 
+  // Animation or none for page transitions
   function showPage(pageId: string, skipAnim = false) {
     const next = document.getElementById(pageId) as HTMLElement | null;
     if (!next) return;
@@ -116,5 +117,4 @@ document.addEventListener('DOMContentLoaded', () => {
       showPage(DEFAULT_PAGE);
     }
   }
-  document.documentElement.style.removeProperty('visibility');
 });
