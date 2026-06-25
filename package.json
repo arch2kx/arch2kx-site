@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "preload": "node scripts/preload-images.mjs"
+  },
   "devDependencies": {
     "typescript": "^6.0.3"
   }

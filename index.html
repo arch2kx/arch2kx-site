@@ -11,9 +11,10 @@
     <link rel="manifest" href="favicon_io/site.webmanifest">
 
     <!-- Since Firefox likes to do this sort of thing I have to add a hack to this... -->
-    <script>document.documentElement.style.visibility='hidden';document.documentElement.classList.add('preload');if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';document.documentElement.style.backgroundColor='#161616';document.documentElement.style.color='#cccccc';}else{document.documentElement.style.colorScheme='light';}</script>
+    <script>document.documentElement.classList.add('preload');if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';document.documentElement.style.backgroundColor='#161616';document.documentElement.style.color='#cccccc';}else{document.documentElement.style.colorScheme='light';document.documentElement.style.backgroundColor='#f3f4f6';document.documentElement.style.color='#545454';}</script>
     <style>
       html.dark, html.dark body { background-color: #161616 !important; color: #cccccc !important; }
+      html:not(.dark), html:not(.dark) body { background-color: #f3f4f6; color: #545454; }
       .preload *, .preload *::before, .preload *::after { transition: none !important; }
       .page { display: none; }
     </style>
@@ -22,10 +23,18 @@
     <link rel="preload" as="image" type="image/webp" href="images/arch_giko_hoshi_new.webp">
     <link rel="preload" as="image" type="image/webp" href="images/arch2k2x_ba-style_light.webp">
     <link rel="preload" as="image" type="image/webp" href="images/arch2k2x_ba-style_dark.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/izuna_nin.webp">
     <link rel="preload" as="image" type="image/webp" href="images/aronasay_banner.webp">
     <link rel="preload" as="image" type="image/webp" href="images/arona.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/basq-banner.webp">
     <link rel="preload" as="image" type="image/webp" href="images/ba_student_quiz_icon.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/etp_banner.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/mika_etp_icon.webp">
     <link rel="preload" as="image" type="image/webp" href="images/construction.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/chrome-icon.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/firefox-icon.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/sechifyts-banner.webp">
+    <link rel="preload" as="image" type="image/webp" href="images/sechifyts-icon-128.webp">
     <!-- /preload:images -->
 
     <link rel="stylesheet" href="css/styles.css">
@@ -89,7 +98,7 @@
         <h1>So, whoami?</h1>
         <p>Hello there, My name is Arch (totally not named after the Linux distribution).<br>I make projects as a hobby and also do some 3D modeling/texturing works.</br></p>
         <p>I also enjoy playing some Blue Archive and developing a Roblox FPS project as well.</p>
-        <img class="about-img" src="images/izuna_nin.png" width="250" height="200" lt="Izuna">
+        <img class="about-img" src="images/izuna_nin.webp" width="250" height="200" lt="Izuna">
         <p>Caption: Nin nin! JSON-saved art in Sechi style.</p>
       </div>
     </section>
@@ -169,7 +178,7 @@
 
         <div class="project-card">
           <div class="card-banner banner-img">
-            <img class="card-banner-bg" src="images/sechifyts-banner.png" alt="Sechify TypeScript Banner">
+            <img class="card-banner-bg" src="images/sechifyts-banner.webp" alt="Sechify TypeScript Banner">
             <div class="card-icon-box">
               <img src="images/sechifyts-icon-128.webp" alt="SechifyTS">
             </div>

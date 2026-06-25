@@ -1,3 +1,5 @@
+// Theme Changing
+
 document.documentElement.classList.remove('preload');
 document.documentElement.style.removeProperty('background-color');
 document.documentElement.style.removeProperty('color');
@@ -114,6 +116,4 @@ document.addEventListener('DOMContentLoaded', () => {
       showPage(DEFAULT_PAGE);
     }
   }
-
-  document.documentElement.style.removeProperty('visibility');
 });
