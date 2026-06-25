@@ -116,4 +116,5 @@ document.addEventListener('DOMContentLoaded', () => {
       showPage(DEFAULT_PAGE);
     }
   }
+  document.documentElement.style.removeProperty('visibility');
 });
