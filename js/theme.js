@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         html.classList.toggle('dark');
         localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
     });
+    // Animation or none for page transitions
     function showPage(pageId, skipAnim = false) {
         const next = document.getElementById(pageId);
         if (!next)
