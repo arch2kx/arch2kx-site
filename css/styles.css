@@ -28,9 +28,9 @@
   --nav-btn:            #171717;
   --nav-btn-hover:      #353434;
   --nav-btn-active:     #199de3;
-  --btn-border:         #909090;
-  --btn-border-hover:   #585757;
-  --btn-hover:          #272727;
+  --btn-border:         #727272;
+  --btn-border-hover:   #8c8c8c;
+  --btn-hover:          #323232;
   --coming-border:      #4b5563;
   --coming-text:        #afafaf;
 }
@@ -249,14 +249,14 @@ a {
   color: var(--text);
   border-radius: 5px;
   padding: 0.625rem 2rem;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
+  transition: background 100ms ease;
 }
 
 .explore-btn:hover {
   background-color: var(--btn-hover);
   border: 1px solid var(--btn-border-hover);
-
 }
 
 /* ── About page ──────────────────────────────── */
