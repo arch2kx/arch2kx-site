@@ -29,6 +29,7 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"></noscript>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
@@ -223,7 +224,7 @@
           <h2 class="funstuff-section-label">Guest Book</h2>
 
           <form id="guestbook-form" class="guestbook-form">
-            <!-- Honeypot: bots fill this, humans don't see it -->
+            <!-- Honeypot: Bots fill this, humans don't see it -->
             <input type="text" id="guestbook-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="guestbook-field">
@@ -243,6 +244,7 @@
           <div id="guestbook-entries" class="guestbook-entries">
             <p class="guestbook-empty">Loading entries...</p>
           </div>
+          <button id="guestbook-load-more" class="guestbook-load-more-btn" hidden>Load more</button>
         </div>
 
       </div>

@@ -498,9 +498,9 @@ img.ext-icon {
 }
 
 .funstuff-section-label {
-  font-family: 'Source Code Pro', monospace;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-family: "Bitcount Single", system-ui;
+  font-size: 1.4rem;
+  font-weight: 400;
   padding-bottom: 8px;
   color: var(--coming-text);
   letter-spacing: 0.05em;
@@ -796,7 +796,7 @@ img.ext-icon {
 }
 
 .guestbook-status-ok  { color: #1dd35f; }
-.guestbook-status-err { color: #ff5737; }
+.guestbook-status-err { color: #f11f46; }
 
 .guestbook-entries {
   display: flex;
@@ -841,5 +841,29 @@ img.ext-icon {
 }
 
 .guestbook-error {
-  color: #ff5737;
+  color: #f11f46;
+}
+
+.guestbook-load-more-btn {
+  display: block;
+  background: transparent;
+  border: 1px solid var(--btn-border);
+  border-radius: 5px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.5rem;
+  margin: 0.75rem auto 0;
+  transition: background 100ms ease, border-color 100ms ease, opacity 150ms ease;
+}
+
+.guestbook-load-more-btn:hover:not(:disabled) {
+  background-color: var(--btn-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.guestbook-load-more-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

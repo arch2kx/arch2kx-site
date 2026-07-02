@@ -2,6 +2,7 @@
 
 const FIREBASE_PROJECT_ID = 'arch2kx-site';
 const FIREBASE_API_KEY = 'AIzaSyAJcYTcy5GVJkXnP8jZIdcq_fioNN481ug';
+const PAGE_SIZE = 10;
 
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 
@@ -23,6 +24,13 @@ interface FirestoreQueryResult {
   document?: FirestoreDoc;
 }
 
+type StructuredQuery = {
+  from: Array<{ collectionId: string }>;
+  orderBy: Array<{ field: { fieldPath: string }; direction: string }>;
+  limit: number;
+  startAfter?: { values: Array<{ timestampValue: string }> };
+};
+
 function hasDocument(r: FirestoreQueryResult): r is { document: FirestoreDoc } {
   return r.document !== undefined;
 }
@@ -36,7 +44,10 @@ const statusEl = document.getElementById('guestbook-status') as HTMLElement;
 const nameCount = document.getElementById('guestbook-name-count') as HTMLElement;
 const msgCount = document.getElementById('guestbook-msg-count') as HTMLElement;
 const entriesEl = document.getElementById('guestbook-entries') as HTMLElement;
+const loadMoreBtn = document.getElementById('guestbook-load-more') as HTMLButtonElement;
 const funStuff = document.getElementById('fun-stuff') as HTMLElement;
+
+let lastCreatedAt: string | null = null;
 
 function escapeHtml(str: string): string {
   return str
@@ -50,20 +61,26 @@ function formatDate(iso: string): string {
   return new Date(iso).toISOString().slice(0, 10);
 }
 
+function makeEntryHTML(e: GuestbookEntry): string {
+  return `<div class="guestbook-entry">
+    <span class="guestbook-entry-name">${escapeHtml(e.name)}</span>
+    <p class="guestbook-entry-msg">${escapeHtml(e.message)}</p>
+    <span class="guestbook-entry-date">${formatDate(e.created_at)}</span>
+  </div>`;
+}
+
 function renderEntries(entries: GuestbookEntry[]): void {
   if (entries.length === 0) {
     entriesEl.innerHTML = '<p class="guestbook-empty">No entries yet — be the first!</p>';
     return;
   }
-  entriesEl.innerHTML = entries
-    .map(
-      e => `<div class="guestbook-entry">
-      <span class="guestbook-entry-name">${escapeHtml(e.name)}</span>
-      <p class="guestbook-entry-msg">${escapeHtml(e.message)}</p>
-      <span class="guestbook-entry-date">${formatDate(e.created_at)}</span>
-    </div>`
-    )
-    .join('');
+  entriesEl.innerHTML = entries.map(makeEntryHTML).join('');
+}
+
+function appendEntries(entries: GuestbookEntry[]): void {
+  for (const e of entries) {
+    entriesEl.insertAdjacentHTML('beforeend', makeEntryHTML(e));
+  }
 }
 
 function prependEntry(entry: GuestbookEntry): void {
@@ -83,36 +100,63 @@ function setStatus(text: string, kind: 'ok' | 'err' | ''): void {
   statusEl.className = kind === '' ? 'guestbook-status' : `guestbook-status guestbook-status-${kind}`;
 }
 
+async function fetchPage(cursor: string | null): Promise<GuestbookEntry[]> {
+  const sq: StructuredQuery = {
+    from: [{ collectionId: 'guestbook' }],
+    orderBy: [{ field: { fieldPath: 'created_at' }, direction: 'DESCENDING' }],
+    limit: PAGE_SIZE,
+  };
+  if (cursor !== null) {
+    sq.startAfter = { values: [{ timestampValue: cursor }] };
+  }
+
+  const res = await fetch(
+    `${FIRESTORE_BASE}:runQuery?key=${FIREBASE_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ structuredQuery: sq }),
+    }
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const rows = (await res.json()) as FirestoreQueryResult[];
+  return rows
+    .filter(hasDocument)
+    .map(r => ({
+      name: r.document.fields.name.stringValue,
+      message: r.document.fields.message.stringValue,
+      created_at: r.document.fields.created_at.timestampValue,
+    }));
+}
+
 async function loadEntries(): Promise<void> {
   try {
-    const res = await fetch(
-      `${FIRESTORE_BASE}:runQuery?key=${FIREBASE_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          structuredQuery: {
-            from: [{ collectionId: 'guestbook' }],
-            orderBy: [{ field: { fieldPath: 'created_at' }, direction: 'DESCENDING' }],
-            limit: 100,
-          },
-        }),
-      }
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const rows = (await res.json()) as FirestoreQueryResult[];
-    const entries: GuestbookEntry[] = rows
-      .filter(hasDocument)
-      .map(r => ({
-        name: r.document.fields.name.stringValue,
-        message: r.document.fields.message.stringValue,
-        created_at: r.document.fields.created_at.timestampValue,
-      }));
+    const entries = await fetchPage(null);
     renderEntries(entries);
+    const last = entries[entries.length - 1];
+    lastCreatedAt = last !== undefined ? last.created_at : null;
+    loadMoreBtn.hidden = entries.length < PAGE_SIZE;
   } catch {
     entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
   }
 }
+
+loadMoreBtn.addEventListener('click', () => {
+  loadMoreBtn.disabled = true;
+  loadMoreBtn.textContent = 'Loading...';
+  void (async () => {
+    try {
+      const entries = await fetchPage(lastCreatedAt);
+      appendEntries(entries);
+      const last = entries[entries.length - 1];
+      if (last !== undefined) lastCreatedAt = last.created_at;
+      if (entries.length < PAGE_SIZE) loadMoreBtn.hidden = true;
+    } finally {
+      loadMoreBtn.disabled = false;
+      loadMoreBtn.textContent = 'Load more';
+    }
+  })();
+});
 
 // Character counts
 nameInput.addEventListener('input', () => {
