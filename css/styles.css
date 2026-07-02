@@ -844,26 +844,3 @@ img.ext-icon {
   color: #f11f46;
 }
 
-.guestbook-load-more-btn {
-  display: block;
-  background: transparent;
-  border: 1px solid var(--btn-border);
-  border-radius: 5px;
-  color: var(--text);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.875rem;
-  padding: 0.6rem 1.5rem;
-  margin: 0.75rem auto 0;
-  transition: background 100ms ease, border-color 100ms ease, opacity 150ms ease;
-}
-
-.guestbook-load-more-btn:hover:not(:disabled) {
-  background-color: var(--btn-hover);
-  border-color: var(--btn-border-hover);
-}
-
-.guestbook-load-more-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}

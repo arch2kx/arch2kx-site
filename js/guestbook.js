@@ -1,7 +1,6 @@
 // Guest Book in Fun Stuff
 const FIREBASE_PROJECT_ID = 'arch2kx-site';
 const FIREBASE_API_KEY = 'AIzaSyAJcYTcy5GVJkXnP8jZIdcq_fioNN481ug';
-const PAGE_SIZE = 10;
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 const form = document.getElementById('guestbook-form');
 const nameInput = document.getElementById('guestbook-name');
@@ -12,9 +11,7 @@ const statusEl = document.getElementById('guestbook-status');
 const nameCount = document.getElementById('guestbook-name-count');
 const msgCount = document.getElementById('guestbook-msg-count');
 const entriesEl = document.getElementById('guestbook-entries');
-const loadMoreBtn = document.getElementById('guestbook-load-more');
 const funStuff = document.getElementById('fun-stuff');
-let nextPageToken = null;
 function escapeHtml(str) {
     return str
         .replace(/&/g, '&amp;')
@@ -39,11 +36,6 @@ function renderEntries(entries) {
     }
     entriesEl.innerHTML = entries.map(makeEntryHTML).join('');
 }
-function appendEntries(entries) {
-    for (const e of entries) {
-        entriesEl.insertAdjacentHTML('beforeend', makeEntryHTML(e));
-    }
-}
 function prependEntry(entry) {
     const emptyEl = entriesEl.querySelector('.guestbook-empty');
     if (emptyEl !== null)
@@ -59,50 +51,23 @@ function setStatus(text, kind) {
     statusEl.textContent = text;
     statusEl.className = kind === '' ? 'guestbook-status' : `guestbook-status guestbook-status-${kind}`;
 }
-async function fetchPage(token) {
-    let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=${PAGE_SIZE}&key=${FIREBASE_API_KEY}`;
-    if (token !== null) {
-        url += `&pageToken=${encodeURIComponent(token)}`;
-    }
-    const res = await fetch(url);
-    if (!res.ok)
-        throw new Error(`HTTP ${res.status}`);
-    const data = (await res.json());
-    const entries = (data.documents ?? []).map(doc => ({
-        name: doc.fields.name.stringValue,
-        message: doc.fields.message.stringValue,
-        created_at: doc.fields.created_at.timestampValue,
-    }));
-    return { entries, nextToken: data.nextPageToken ?? null };
-}
 async function loadEntries() {
     try {
-        const { entries, nextToken } = await fetchPage(null);
+        const res = await fetch(`${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=200&key=${FIREBASE_API_KEY}`);
+        if (!res.ok)
+            throw new Error(`HTTP ${res.status}`);
+        const data = (await res.json());
+        const entries = (data.documents ?? []).map(doc => ({
+            name: doc.fields.name.stringValue,
+            message: doc.fields.message.stringValue,
+            created_at: doc.fields.created_at.timestampValue,
+        }));
         renderEntries(entries);
-        nextPageToken = nextToken;
-        loadMoreBtn.hidden = nextToken === null;
     }
     catch {
         entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
     }
 }
-loadMoreBtn.addEventListener('click', () => {
-    loadMoreBtn.disabled = true;
-    loadMoreBtn.textContent = 'Loading...';
-    void (async () => {
-        try {
-            const { entries, nextToken } = await fetchPage(nextPageToken);
-            appendEntries(entries);
-            nextPageToken = nextToken;
-            if (nextToken === null)
-                loadMoreBtn.hidden = true;
-        }
-        finally {
-            loadMoreBtn.disabled = false;
-            loadMoreBtn.textContent = 'Load more';
-        }
-    })();
-});
 // Character counts
 nameInput.addEventListener('input', () => {
     nameCount.textContent = `${nameInput.value.length} / 50`;
@@ -115,7 +80,6 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = nameInput.value.trim();
     const message = msgInput.value.trim();
-    // Honeypot: bot filled the hidden field — silently succeed without inserting
     if (honeypot.value !== '') {
         form.reset();
         nameCount.textContent = '0 / 50';

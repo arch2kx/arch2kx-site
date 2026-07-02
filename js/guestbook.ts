@@ -2,7 +2,6 @@
 
 const FIREBASE_PROJECT_ID = 'arch2kx-site';
 const FIREBASE_API_KEY = 'AIzaSyAJcYTcy5GVJkXnP8jZIdcq_fioNN481ug';
-const PAGE_SIZE = 10;
 
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 
@@ -22,7 +21,6 @@ interface FirestoreDoc {
 
 interface FirestoreListResponse {
   documents?: FirestoreDoc[];
-  nextPageToken?: string;
 }
 
 const form = document.getElementById('guestbook-form') as HTMLFormElement;
@@ -34,10 +32,7 @@ const statusEl = document.getElementById('guestbook-status') as HTMLElement;
 const nameCount = document.getElementById('guestbook-name-count') as HTMLElement;
 const msgCount = document.getElementById('guestbook-msg-count') as HTMLElement;
 const entriesEl = document.getElementById('guestbook-entries') as HTMLElement;
-const loadMoreBtn = document.getElementById('guestbook-load-more') as HTMLButtonElement;
 const funStuff = document.getElementById('fun-stuff') as HTMLElement;
-
-let nextPageToken: string | null = null;
 
 function escapeHtml(str: string): string {
   return str
@@ -67,12 +62,6 @@ function renderEntries(entries: GuestbookEntry[]): void {
   entriesEl.innerHTML = entries.map(makeEntryHTML).join('');
 }
 
-function appendEntries(entries: GuestbookEntry[]): void {
-  for (const e of entries) {
-    entriesEl.insertAdjacentHTML('beforeend', makeEntryHTML(e));
-  }
-}
-
 function prependEntry(entry: GuestbookEntry): void {
   const emptyEl = entriesEl.querySelector('.guestbook-empty');
   if (emptyEl !== null) entriesEl.innerHTML = '';
@@ -90,51 +79,23 @@ function setStatus(text: string, kind: 'ok' | 'err' | ''): void {
   statusEl.className = kind === '' ? 'guestbook-status' : `guestbook-status guestbook-status-${kind}`;
 }
 
-async function fetchPage(token: string | null): Promise<{ entries: GuestbookEntry[]; nextToken: string | null }> {
-  let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=${PAGE_SIZE}&key=${FIREBASE_API_KEY}`;
-  if (token !== null) {
-    url += `&pageToken=${encodeURIComponent(token)}`;
-  }
-
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = (await res.json()) as FirestoreListResponse;
-
-  const entries: GuestbookEntry[] = (data.documents ?? []).map(doc => ({
-    name: doc.fields.name.stringValue,
-    message: doc.fields.message.stringValue,
-    created_at: doc.fields.created_at.timestampValue,
-  }));
-
-  return { entries, nextToken: data.nextPageToken ?? null };
-}
-
 async function loadEntries(): Promise<void> {
   try {
-    const { entries, nextToken } = await fetchPage(null);
+    const res = await fetch(
+      `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=200&key=${FIREBASE_API_KEY}`
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = (await res.json()) as FirestoreListResponse;
+    const entries: GuestbookEntry[] = (data.documents ?? []).map(doc => ({
+      name: doc.fields.name.stringValue,
+      message: doc.fields.message.stringValue,
+      created_at: doc.fields.created_at.timestampValue,
+    }));
     renderEntries(entries);
-    nextPageToken = nextToken;
-    loadMoreBtn.hidden = nextToken === null;
   } catch {
     entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
   }
 }
-
-loadMoreBtn.addEventListener('click', () => {
-  loadMoreBtn.disabled = true;
-  loadMoreBtn.textContent = 'Loading...';
-  void (async () => {
-    try {
-      const { entries, nextToken } = await fetchPage(nextPageToken);
-      appendEntries(entries);
-      nextPageToken = nextToken;
-      if (nextToken === null) loadMoreBtn.hidden = true;
-    } finally {
-      loadMoreBtn.disabled = false;
-      loadMoreBtn.textContent = 'Load more';
-    }
-  })();
-});
 
 // Character counts
 nameInput.addEventListener('input', () => {
@@ -151,7 +112,6 @@ form.addEventListener('submit', (e: Event): void => {
   const name = nameInput.value.trim();
   const message = msgInput.value.trim();
 
-  // Honeypot: bot filled the hidden field — silently succeed without inserting
   if (honeypot.value !== '') {
     form.reset();
     nameCount.textContent = '0 / 50';
