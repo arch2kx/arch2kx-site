@@ -177,83 +177,16 @@ function bneofetchOutput() {
     const res = `${window.screen.width}x${window.screen.height}`;
     const vp = `${window.innerWidth}x${window.innerHeight}`;
     const depth = `${window.screen.colorDepth}bpp`;
-    function lw(line) {
-        return line.reduce((n, s) => n + s.t.length, 0);
-    }
-    function lh(line) {
-        return line.map(s => s.c !== undefined
-            ? `<span style="color:${s.c}">${escapeHtml(s.t)}</span>`
-            : escapeHtml(s.t)).join('');
-    }
-    // Browser brand colors
-    const CR = '#EA4335';
-    const CG = '#34A853';
-    const CY = '#FBBC04';
-    const CB = '#4285F4';
-    const FO = '#FF7139';
-    const FB = '#0060DF';
-    const EB = '#0078D4';
-    const ET = '#50E6FF';
-    const SB = '#006CFF';
-    const SR = '#FF375F';
-    const n = (t) => ({ t });
-    const c = (t, col) => ({ t, c: col });
-    const logos = {
-        Chrome: [
-            [n('     .~~~~~~.     ')],
-            [n('    /'), c('RR', CR), n('    '), c('GG', CG), n('\\    ')],
-            [n('   /'), c('R', CR), n('  .---. '), c('G', CG), n('\\   ')],
-            [n('  |'), c('R', CR), n('  / '), c('BBB', CB), n(' \\ '), c('G', CG), n('|  ')],
-            [n('  |'), c('R', CR), n('  \\ '), c('BBB', CB), n(' / '), c('G', CG), n('|  ')],
-            [n('   \\'), c('Y', CY), n('  `---`  '), c('Y', CY), n('/  ')],
-            [n('    \\'), c('YY', CY), n('      '), c('YY', CY), n('/   ')],
-            [n('     `~~~~~~`     ')],
-        ],
-        Firefox: [
-            [n('    .~~~~~~~.    ')],
-            [n('   /'), c('OOOOOOOOO', FO), n('\\   ')],
-            [n('  /'), c('OO', FO), n(' .~~~. '), c('OO', FO), n('\\  ')],
-            [n('  |'), c('OO', FO), n(' / '), c('BBB', FB), n(' \\ '), c('OO', FO), n('|  ')],
-            [n('  |'), c('OO', FO), n('( '), c('BBBBB', FB), n(' )'), c('OO', FO), n('|  ')],
-            [n('  |'), c('OO', FO), n(' \\ '), c('BBB', FB), n(' / '), c('OO', FO), n('|  ')],
-            [n('  |'), c('OO', FO), n(' `~~~` '), c('OO', FO), n('|  ')],
-            [n('   \\'), c('OOOOOOOOO', FO), n('/   ')],
-            [n('    `~~~~~~~`    ')],
-        ],
-        Edge: [
-            [n('    .~~~~~~~.    ')],
-            [n('   /'), c('~~~~~~~~~~~', EB), n('\\   ')],
-            [n('  /'), c('~~', EB), n(' .~~~~~. '), c('~~', ET), n('\\  ')],
-            [n('  |'), c('~~', EB), n(' / '), c('~~~~~', ET), n(' \\ '), c('~~', EB), n('|  ')],
-            [n('  |'), c('~~', EB), n('(  '), c('~~~~~', ET), n('  )'), c('~~', EB), n('|  ')],
-            [n('  |'), c('~~', EB), n(' \\ '), c('~~~~~', ET), n(' / '), c('~~', EB), n('|  ')],
-            [n('  |'), c('~~', EB), n(' `~~~~~` '), c('~~', EB), n('|  ')],
-            [n('   \\'), c('~~~~~~~~~~~', EB), n('/   ')],
-            [n('    `~~~~~~~`    ')],
-        ],
-        Safari: [
-            [n('    .-------.    ')],
-            [n('   /    '), c('N', SR), n('    \\   ')],
-            [n('  /  '), c('NW', SB), n('   '), c('NE', SB), n('  \\  ')],
-            [n('  |   /   \\   |  ')],
-            [n('  | '), c('W', SB), n(' --'), c('(+)', SR), n('-- '), c('E', SB), n(' |  ')],
-            [n('  |   \\   /   |  ')],
-            [n('  \\  '), c('SW', SB), n('   '), c('SE', SB), n('  /  ')],
-            [n('   \\    '), c('S', SR), n('    /   ')],
-            [n('    `-------`    ')],
-        ],
-        Unknown: [
-            [n(' .------------. ')],
-            [n(' | o o o |###| ')],
-            [n(' |------------| ')],
-            [n(' |            | ')],
-            [n(' |  you are   | ')],
-            [n(' |    here    | ')],
-            [n(' |            | ')],
-            [n(' `------------` ')],
-        ],
-    };
-    const logo = logos[browser] ?? logos['Unknown'] ?? [];
+    const logo = [
+        ' .------------. ',
+        ' | o o o |###| ',
+        ' |------------| ',
+        ' |            | ',
+        ' |  you are   | ',
+        ' |    here    | ',
+        ' |            | ',
+        ' `------------` ',
+    ];
     const info = [
         `<span class="c-arch">you</span><span class="c-dim">@</span><span class="c-arch">browser</span>`,
         `<span class="c-dim">-----------</span>`,
@@ -268,14 +201,13 @@ function bneofetchOutput() {
         `<b class="c-arch">Color:</b> <span class="c-val">${depth}</span>`,
         `<b class="c-arch">Online:</b> <span class="c-val">${navigator.onLine ? 'yes' : 'no'}</span>`,
     ];
-    const LOGO_WIDTH = 20;
+    const LOGO_WIDTH = 18;
     const total = Math.max(logo.length, info.length);
     const lines = [];
     for (let i = 0; i < total; i++) {
-        const ll = logo[i] ?? [];
-        const pad = ' '.repeat(Math.max(0, LOGO_WIDTH - lw(ll)));
+        const logoLine = (logo[i] ?? '').padEnd(LOGO_WIDTH);
         const infoLine = info[i] ?? '';
-        lines.push(`<div>${lh(ll)}${pad}  ${infoLine}</div>`);
+        lines.push(`<div><span class="c-arch-reg">${logoLine}</span>  ${infoLine}</div>`);
     }
     return lines.join('');
 }
