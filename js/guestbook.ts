@@ -9,6 +9,7 @@ interface GuestbookEntry {
   name: string;
   message: string;
   created_at: string;
+  tz_offset: number;
 }
 
 interface FirestoreDoc {
@@ -16,6 +17,7 @@ interface FirestoreDoc {
     name: { stringValue: string };
     message: { stringValue: string };
     created_at: { timestampValue: string };
+    tz_offset: { integerValue: string };
   };
 }
 
@@ -49,11 +51,30 @@ function formatDate(iso: string): string {
   return new Date(iso).toISOString().slice(0, 10);
 }
 
+function formatTime(iso: string, offsetMinutes: number): string {
+  const utcDate = new Date(iso);
+  const shifted = new Date(utcDate.getTime() + offsetMinutes * 60000);
+
+  const hh = String(shifted.getUTCHours()).padStart(2, '0');
+  const mm = String(shifted.getUTCMinutes()).padStart(2, '0');
+  const ss = String(shifted.getUTCSeconds()).padStart(2, '0');
+
+  const sign = offsetMinutes >= 0 ? '+' : '-';
+  const abs = Math.abs(offsetMinutes);
+  const offHours = Math.floor(abs / 60);
+  const offMins = abs % 60;
+  const offsetStr = offMins === 0
+    ? `UTC${sign}${offHours}`
+    : `UTC${sign}${offHours}:${String(offMins).padStart(2, '0')}`;
+
+  return `${hh}:${mm}:${ss} ${offsetStr}`;
+}
+
 function makeEntryHTML(e: GuestbookEntry): string {
   return `<div class="guestbook-entry">
     <span class="guestbook-entry-name">${escapeHtml(e.name)}</span>
     <p class="guestbook-entry-msg">${escapeHtml(e.message)}</p>
-    <span class="guestbook-entry-date">${formatDate(e.created_at)}</span>
+    <span class="guestbook-entry-date">${formatDate(e.created_at)} ${formatTime(e.created_at, e.tz_offset)}</span>
   </div>`;
 }
 
@@ -73,7 +94,7 @@ function prependEntry(entry: GuestbookEntry): void {
   div.className = 'guestbook-entry';
   div.innerHTML = `<span class="guestbook-entry-name">${escapeHtml(entry.name)}</span>
     <p class="guestbook-entry-msg">${escapeHtml(entry.message)}</p>
-    <span class="guestbook-entry-date">${formatDate(entry.created_at)}</span>`;
+    <span class="guestbook-entry-date">${formatDate(entry.created_at)} @ ${formatTime(entry.created_at, entry.tz_offset)}</span>`;
   entriesEl.insertBefore(div, entriesEl.firstChild);
 }
 
@@ -93,8 +114,8 @@ async function loadEntries(): Promise<void> {
       name: doc.fields.name.stringValue,
       message: doc.fields.message.stringValue,
       created_at: doc.fields.created_at.timestampValue,
-    }));
-    renderEntries(entries);
+      tz_offset: doc.fields.tz_offset ? Number(doc.fields.tz_offset.integerValue) : 0,
+    }));    renderEntries(entries);
   } catch {
     entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
   }
@@ -130,6 +151,8 @@ form.addEventListener('submit', (e: Event): void => {
   void (async () => {
     try {
       const now = new Date().toISOString();
+      const offsetMinutes = -new Date().getTimezoneOffset();
+
       const res = await fetch(
         `${FIRESTORE_BASE}/guestbook?key=${FIREBASE_API_KEY}`,
         {
@@ -140,13 +163,14 @@ form.addEventListener('submit', (e: Event): void => {
               name: { stringValue: name },
               message: { stringValue: message },
               created_at: { timestampValue: now },
+              tz_offset: { integerValue: String(offsetMinutes) },
             },
           }),
         }
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      prependEntry({ name, message, created_at: now });
+      prependEntry({ name, message, created_at: now, tz_offset: offsetMinutes });
 
       form.reset();
       nameCount.textContent = '0 / 50';
@@ -176,6 +200,7 @@ async function loadArchive(): Promise<void> {
         name: doc.fields.name.stringValue,
         message: doc.fields.message.stringValue,
         created_at: doc.fields.created_at.timestampValue,
+        tz_offset: doc.fields.tz_offset ? Number(doc.fields.tz_offset.integerValue) : 0,
       }));
       all.push(...page);
       token = data.nextPageToken ?? null;
