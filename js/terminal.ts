@@ -18,17 +18,12 @@ type FSFile = { type: 'file'; content: string };
 type FSDir  = { type: 'dir';  children: Record<string, FSNode> };
 type FSNode = FSFile | FSDir;
 
+// Options for the commands in fake FS.
 const FS: FSDir = { type: 'dir', children: {
   home: { type: 'dir', children: {
     arch2kx: { type: 'dir', children: {
-      'about.txt':   { type: 'file', content: 'arch2kx — dev & gamer.\nsee /about on the site.' },
-      '.bashrc':     { type: 'file', content: '# .bashrc\nalias ls="ls --color=auto"\nalias grep="grep --color=auto"\nexport EDITOR=nvim\n# neofetch' },
-      '.config': { type: 'dir', children: {
-        hypr: { type: 'dir', children: {
-          'hyprland.conf': { type: 'file', content: '# Hyprland config\nmonitor=,preferred,auto,1\nexec-once = waybar\nexec-once = hyprpaper\n# ... (300 more lines)' },
-        }},
-      }},
-      projects: { type: 'dir', children: {
+      'about.txt':   { type: 'file', content: 'arch2kx — dev & 3d artist.\nsee /about on the site.' },
+      Projects: { type: 'dir', children: {
         'arch2kx-site': { type: 'dir', children: {
           'README.md': { type: 'file', content: '# arch2kx-site\npersonal site — you\'re looking at it.' },
         }},
@@ -36,10 +31,10 @@ const FS: FSDir = { type: 'dir', children: {
           'README.md': { type: 'file', content: '# dotfiles\nsway, waybar, emacs, zsh configs.' },
         }},
       }},
-      downloads: { type: 'dir', children: {
+      Downloads: { type: 'dir', children: {
         'archlinux-2026.07.01-x86_64.iso': { type: 'file', content: 'gzip compressed data — why are you cat-ing an iso?' },
       }},
-      music: { type: 'dir', children: {
+      Music: { type: 'dir', children: {
         blue_archive_ost: { type: 'dir', children: {
           'unwelcome_school.flac':  { type: 'file', content: '[FLAC audio — 5:32]' },
           'usagi_flap.flac':        { type: 'file', content: '[FLAC audio — 2:06]' },
@@ -178,11 +173,11 @@ function bneofetchOutput(): string {
 
   const logo: string[] = [
     ' .------------. ',
-    ' | o o o |###| ',
+    ' |      _ O X | ',
     ' |------------| ',
     ' |            | ',
-    ' |  you are   | ',
-    ' |    here    | ',
+    " |  you're    | ",
+    ' |  here!     | ',
     ' |            | ',
     ' `------------` ',
   ];

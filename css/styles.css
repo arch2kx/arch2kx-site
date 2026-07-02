@@ -758,7 +758,7 @@ img.ext-icon {
 .guestbook-form textarea {
   resize: vertical;
   min-height: 6rem;
-  max-height: 16rem;
+  max-height: 10rem;
 }
 
 .guestbook-count {
