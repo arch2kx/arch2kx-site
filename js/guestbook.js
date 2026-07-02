@@ -11,7 +11,9 @@ const statusEl = document.getElementById('guestbook-status');
 const nameCount = document.getElementById('guestbook-name-count');
 const msgCount = document.getElementById('guestbook-msg-count');
 const entriesEl = document.getElementById('guestbook-entries');
+const archiveEl = document.getElementById('guestbook-archive-entries');
 const funStuff = document.getElementById('fun-stuff');
+const archivePage = document.getElementById('guestbook');
 function escapeHtml(str) {
     return str
         .replace(/&/g, '&amp;')
@@ -121,6 +123,37 @@ form.addEventListener('submit', (e) => {
         }
     })();
 });
+async function loadArchive() {
+    const all = [];
+    let token = null;
+    try {
+        do {
+            let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=200&key=${FIREBASE_API_KEY}`;
+            if (token !== null)
+                url += `&pageToken=${encodeURIComponent(token)}`;
+            const res = await fetch(url);
+            if (!res.ok)
+                throw new Error(`HTTP ${res.status}`);
+            const data = (await res.json());
+            const page = (data.documents ?? []).map(doc => ({
+                name: doc.fields.name.stringValue,
+                message: doc.fields.message.stringValue,
+                created_at: doc.fields.created_at.timestampValue,
+            }));
+            all.push(...page);
+            token = data.nextPageToken ?? null;
+        } while (token !== null);
+        if (all.length === 0) {
+            archiveEl.innerHTML = '<p class="guestbook-empty">No entries yet — be the first!</p>';
+        }
+        else {
+            archiveEl.innerHTML = all.map(makeEntryHTML).join('');
+        }
+    }
+    catch {
+        archiveEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
+    }
+}
 // Lazy-load entries when Fun Stuff page becomes active
 let entriesLoaded = false;
 const observer = new MutationObserver(() => {
@@ -130,5 +163,14 @@ const observer = new MutationObserver(() => {
     }
 });
 observer.observe(funStuff, { attributes: true, attributeFilter: ['class'] });
+// Lazy-load all entries when archive page becomes active
+let archiveLoaded = false;
+const archiveObserver = new MutationObserver(() => {
+    if (archivePage.classList.contains('active') && !archiveLoaded) {
+        archiveLoaded = true;
+        void loadArchive();
+    }
+});
+archiveObserver.observe(archivePage, { attributes: true, attributeFilter: ['class'] });
 export {};
 //# sourceMappingURL=guestbook.js.map

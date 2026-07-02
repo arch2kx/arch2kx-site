@@ -844,3 +844,59 @@ img.ext-icon {
   color: #f11f46;
 }
 
+.guestbook-view-all {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #199de3;
+  cursor: pointer;
+}
+
+.guestbook-view-all:hover {
+  text-decoration: underline;
+}
+
+/* ── Guestbook Archive page ──────────────────── */
+.guestbook-archive-main {
+  padding: 2rem 1.5rem;
+}
+
+.guestbook-archive-inner {
+  max-width: 36rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.guestbook-archive-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.guestbook-back {
+  font-size: 0.875rem;
+  color: #199de3;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.guestbook-back:hover {
+  text-decoration: underline;
+}
+
+.guestbook-archive-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.guestbook-archive-sub {
+  font-size: 0.95rem;
+  color: var(--coming-text);
+  margin: 0;
+}
+

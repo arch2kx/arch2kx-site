@@ -21,6 +21,7 @@ interface FirestoreDoc {
 
 interface FirestoreListResponse {
   documents?: FirestoreDoc[];
+  nextPageToken?: string;
 }
 
 const form = document.getElementById('guestbook-form') as HTMLFormElement;
@@ -32,7 +33,9 @@ const statusEl = document.getElementById('guestbook-status') as HTMLElement;
 const nameCount = document.getElementById('guestbook-name-count') as HTMLElement;
 const msgCount = document.getElementById('guestbook-msg-count') as HTMLElement;
 const entriesEl = document.getElementById('guestbook-entries') as HTMLElement;
+const archiveEl = document.getElementById('guestbook-archive-entries') as HTMLElement;
 const funStuff = document.getElementById('fun-stuff') as HTMLElement;
+const archivePage = document.getElementById('guestbook') as HTMLElement;
 
 function escapeHtml(str: string): string {
   return str
@@ -158,6 +161,36 @@ form.addEventListener('submit', (e: Event): void => {
   })();
 });
 
+async function loadArchive(): Promise<void> {
+  const all: GuestbookEntry[] = [];
+  let token: string | null = null;
+
+  try {
+    do {
+      let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=200&key=${FIREBASE_API_KEY}`;
+      if (token !== null) url += `&pageToken=${encodeURIComponent(token)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = (await res.json()) as FirestoreListResponse;
+      const page: GuestbookEntry[] = (data.documents ?? []).map(doc => ({
+        name: doc.fields.name.stringValue,
+        message: doc.fields.message.stringValue,
+        created_at: doc.fields.created_at.timestampValue,
+      }));
+      all.push(...page);
+      token = data.nextPageToken ?? null;
+    } while (token !== null);
+
+    if (all.length === 0) {
+      archiveEl.innerHTML = '<p class="guestbook-empty">No entries yet — be the first!</p>';
+    } else {
+      archiveEl.innerHTML = all.map(makeEntryHTML).join('');
+    }
+  } catch {
+    archiveEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
+  }
+}
+
 // Lazy-load entries when Fun Stuff page becomes active
 let entriesLoaded = false;
 const observer = new MutationObserver(() => {
@@ -167,3 +200,13 @@ const observer = new MutationObserver(() => {
   }
 });
 observer.observe(funStuff, { attributes: true, attributeFilter: ['class'] });
+
+// Lazy-load all entries when archive page becomes active
+let archiveLoaded = false;
+const archiveObserver = new MutationObserver(() => {
+  if (archivePage.classList.contains('active') && !archiveLoaded) {
+    archiveLoaded = true;
+    void loadArchive();
+  }
+});
+archiveObserver.observe(archivePage, { attributes: true, attributeFilter: ['class'] });
