@@ -55,7 +55,7 @@ function setStatus(text, kind) {
 }
 async function loadEntries() {
     try {
-        const res = await fetch(`${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=200&key=${FIREBASE_API_KEY}`);
+        const res = await fetch(`${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=5&key=${FIREBASE_API_KEY}`);
         if (!res.ok)
             throw new Error(`HTTP ${res.status}`);
         const data = (await res.json());
