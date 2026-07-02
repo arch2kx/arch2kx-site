@@ -33,7 +33,7 @@ const FS: FSDir = { type: 'dir', children: {
           'README.md': { type: 'file', content: '# arch2kx-site\npersonal site — you\'re looking at it.' },
         }},
         dotfiles: { type: 'dir', children: {
-          'README.md': { type: 'file', content: '# dotfiles\nhyprland, waybar, nvim, zsh configs.' },
+          'README.md': { type: 'file', content: '# dotfiles\nsway, waybar, emacs, zsh configs.' },
         }},
       }},
       downloads: { type: 'dir', children: {
@@ -42,7 +42,7 @@ const FS: FSDir = { type: 'dir', children: {
       music: { type: 'dir', children: {
         blue_archive_ost: { type: 'dir', children: {
           'unwelcome_school.flac':  { type: 'file', content: '[FLAC audio — 5:32]' },
-          'blue_sky.flac':          { type: 'file', content: '[FLAC audio — 3:48]' },
+          'usagi_flap.flac':        { type: 'file', content: '[FLAC audio — 2:06]' },
           'constant_moderato.flac': { type: 'file', content: '[FLAC audio — 4:11]' },
           'luminous_memory.flac':   { type: 'file', content: '[FLAC audio — 6:20]' },
         }},
@@ -85,7 +85,7 @@ function displayCwd(): string {
 }
 
 function promptHtml(): string {
-  return `<span class="c-arch">arch2kx@archlinux ${escapeHtml(displayCwd())} %</span>`;
+  return `<span class="c-arch">${escapeHtml(displayCwd())} %</span>`;
 }
 
 // ── Neofetch (system) ─────────────────────────────────────────
@@ -121,7 +121,7 @@ function neofetchOutput(): string {
     `<b class="c-arch">Kernel:</b> <span class="c-val">7.0.10-zen1-1-zen</span>`,
     `<b class="c-arch">Uptime:</b> <span class="c-val">3 days, 14 hours</span>`,
     `<b class="c-arch">Shell:</b> <span class="c-val">zsh 5.9</span>`,
-    `<b class="c-arch">DE:</b> <span class="c-val">Plasma 6.6.5 (Wayland)</span>`,
+    `<b class="c-arch">DE:</b> <span class="c-val">Plasma 6.7.0 (Wayland)</span>`,
     `<b class="c-arch">WM:</b> <span class="c-val">KWin (Wayland)</span>`,
     `<b class="c-arch">WM Theme:</b> <span class="c-val">Breeze</span>`,
     `<b class="c-arch">CPU:</b> <span class="c-val">Intel i7-9750H (12) @ 4.500GHz</span>`,
@@ -176,16 +176,62 @@ function bneofetchOutput(): string {
   const vp    = `${window.innerWidth}x${window.innerHeight}`;
   const depth = `${window.screen.colorDepth}bpp`;
 
-  const logo: string[] = [
-    ' .------------. ',
-    ' | o o o |###| ',
-    ' |------------|',
-    ' |            |',
-    ' |  you are   |',
-    ' |    here    |',
-    ' |            |',
-    ' `------------`',
-  ];
+  const logos: Record<string, string[]> = {
+    Chrome: [
+      '    .~~~~~~.    ',
+      '   /  .---.  \\ ',
+      '  / R/     \\G \\ ',
+      ' /   \\     /   \\',
+      '|  G  (  B  )  |',
+      ' \\   /     \\   /',
+      '  \\ Y\\     /Y /',
+      '   \\  `---`  / ',
+      '    `~~~~~~`   ',
+    ],
+    Firefox: [
+      '   .~~~~~~~.   ',
+      '  /  .~~~.  \\  ',
+      ' / /  .-.  \\ \\ ',
+      '| | (( o )) | |',
+      '| |  ):::(  | |',
+      ' \\ \\ `~~~` / / ',
+      '  \\  `~~~`  /  ',
+      '   `~~~~~~~`   ',
+    ],
+    Edge: [
+      '   .~~~~~~~.   ',
+      '  /  .~~~~. \\  ',
+      ' / / /    \\ \\ ',
+      '| | (      ) | ',
+      '| |  \\____/  | ',
+      '| |   \\      | ',
+      ' \\ \\   `~~~` / ',
+      '  `~~~~~~~~~~` ',
+    ],
+    Safari: [
+      '  .---------.  ',
+      ' /     N     \\ ',
+      '|   /     \\   |',
+      '|  / .~~~. \\  |',
+      '|W |  (N)  | E|',
+      '|  \\ `~~~` /  |',
+      '|   \\     /   |',
+      ' \\     S     / ',
+      '  `---------`  ',
+    ],
+    Unknown: [
+      ' .------------.',
+      ' | o o o |###|',
+      ' |------------|',
+      ' |            |',
+      ' |  you are   |',
+      ' |    here    |',
+      ' |            |',
+      ' `------------`',
+    ],
+  };
+
+  const logo = logos[browser] ?? logos['Unknown'] ?? [];
 
   const info: string[] = [
     `<span class="c-arch">you</span><span class="c-dim">@</span><span class="c-arch">browser</span>`,
@@ -202,7 +248,7 @@ function bneofetchOutput(): string {
     `<b class="c-arch">Online:</b> <span class="c-val">${navigator.onLine ? 'yes' : 'no'}</span>`,
   ];
 
-  const LOGO_WIDTH = 16;
+  const LOGO_WIDTH = 18;
   const total = Math.max(logo.length, info.length);
   const lines: string[] = [];
   for (let i = 0; i < total; i++) {
