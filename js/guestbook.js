@@ -1,6 +1,10 @@
 // Guest Book in Fun Stuff
-const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE';
+const FIREBASE_PROJECT_ID = 'YOUR_PROJECT_ID';
+const FIREBASE_API_KEY = 'YOUR_WEB_API_KEY';
+const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
+function hasDocument(r) {
+    return r.document !== undefined;
+}
 const form = document.getElementById('guestbook-form');
 const nameInput = document.getElementById('guestbook-name');
 const msgInput = document.getElementById('guestbook-message');
@@ -55,15 +59,27 @@ function setStatus(text, kind) {
 }
 async function loadEntries() {
     try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/guestbook?select=name,message,created_at&order=created_at.desc`, {
-            headers: {
-                apikey: SUPABASE_ANON_KEY,
-                Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            },
+        const res = await fetch(`${FIRESTORE_BASE}:runQuery?key=${FIREBASE_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                structuredQuery: {
+                    from: [{ collectionId: 'guestbook' }],
+                    orderBy: [{ field: { fieldPath: 'created_at' }, direction: 'DESCENDING' }],
+                    limit: 100,
+                },
+            }),
         });
         if (!res.ok)
             throw new Error(`HTTP ${res.status}`);
-        const entries = (await res.json());
+        const rows = (await res.json());
+        const entries = rows
+            .filter(hasDocument)
+            .map(r => ({
+            name: r.document.fields.name.stringValue,
+            message: r.document.fields.message.stringValue,
+            created_at: r.document.fields.created_at.timestampValue,
+        }));
         renderEntries(entries);
     }
     catch {
@@ -95,19 +111,21 @@ form.addEventListener('submit', (e) => {
     setStatus('', '');
     void (async () => {
         try {
-            const res = await fetch(`${SUPABASE_URL}/rest/v1/guestbook`, {
+            const now = new Date().toISOString();
+            const res = await fetch(`${FIRESTORE_BASE}/guestbook?key=${FIREBASE_API_KEY}`, {
                 method: 'POST',
-                headers: {
-                    apikey: SUPABASE_ANON_KEY,
-                    Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-                    'Content-Type': 'application/json',
-                    Prefer: 'return=minimal',
-                },
-                body: JSON.stringify({ name, message }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fields: {
+                        name: { stringValue: name },
+                        message: { stringValue: message },
+                        created_at: { timestampValue: now },
+                    },
+                }),
             });
             if (!res.ok)
                 throw new Error(`HTTP ${res.status}`);
-            prependEntry({ name, message, created_at: new Date().toISOString() });
+            prependEntry({ name, message, created_at: now });
             form.reset();
             nameCount.textContent = '0 / 50';
             msgCount.textContent = '0 / 280';
