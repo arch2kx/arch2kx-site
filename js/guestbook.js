@@ -1,6 +1,6 @@
 // Guest Book in Fun Stuff
-const FIREBASE_PROJECT_ID = 'YOUR_PROJECT_ID';
-const FIREBASE_API_KEY = 'YOUR_WEB_API_KEY';
+const FIREBASE_PROJECT_ID = 'arch2kx-site';
+const FIREBASE_API_KEY = 'AIzaSyAJcYTcy5GVJkXnP8jZIdcq_fioNN481ug';
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 function hasDocument(r) {
     return r.document !== undefined;
