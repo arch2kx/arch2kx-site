@@ -15,7 +15,7 @@
   --btn-border-hover:   #b7b8b9;
   --btn-hover:          #e4e5e7;
   --coming-border:      #d1d5db;
-  --coming-text:        #afafaf;
+  --coming-text:        #737373;
 }
 
 .dark {
@@ -499,7 +499,7 @@ img.ext-icon {
 
 .funstuff-section-label {
   font-family: 'Source Code Pro', monospace;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   padding-bottom: 8px;
   color: var(--coming-text);
