@@ -3,9 +3,6 @@ const FIREBASE_PROJECT_ID = 'arch2kx-site';
 const FIREBASE_API_KEY = 'AIzaSyAJcYTcy5GVJkXnP8jZIdcq_fioNN481ug';
 const PAGE_SIZE = 10;
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
-function hasDocument(r) {
-    return r.document !== undefined;
-}
 const form = document.getElementById('guestbook-form');
 const nameInput = document.getElementById('guestbook-name');
 const msgInput = document.getElementById('guestbook-message');
@@ -17,7 +14,7 @@ const msgCount = document.getElementById('guestbook-msg-count');
 const entriesEl = document.getElementById('guestbook-entries');
 const loadMoreBtn = document.getElementById('guestbook-load-more');
 const funStuff = document.getElementById('fun-stuff');
-let lastCreatedAt = null;
+let nextPageToken = null;
 function escapeHtml(str) {
     return str
         .replace(/&/g, '&amp;')
@@ -62,38 +59,28 @@ function setStatus(text, kind) {
     statusEl.textContent = text;
     statusEl.className = kind === '' ? 'guestbook-status' : `guestbook-status guestbook-status-${kind}`;
 }
-async function fetchPage(cursor) {
-    const sq = {
-        from: [{ collectionId: 'guestbook' }],
-        orderBy: [{ field: { fieldPath: 'created_at' }, direction: 'DESCENDING' }],
-        limit: PAGE_SIZE,
-    };
-    if (cursor !== null) {
-        sq.startAfter = { values: [{ timestampValue: cursor }] };
+async function fetchPage(token) {
+    let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=${PAGE_SIZE}&key=${FIREBASE_API_KEY}`;
+    if (token !== null) {
+        url += `&pageToken=${encodeURIComponent(token)}`;
     }
-    const res = await fetch(`${FIRESTORE_BASE}:runQuery?key=${FIREBASE_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ structuredQuery: sq }),
-    });
+    const res = await fetch(url);
     if (!res.ok)
         throw new Error(`HTTP ${res.status}`);
-    const rows = (await res.json());
-    return rows
-        .filter(hasDocument)
-        .map(r => ({
-        name: r.document.fields.name.stringValue,
-        message: r.document.fields.message.stringValue,
-        created_at: r.document.fields.created_at.timestampValue,
+    const data = (await res.json());
+    const entries = (data.documents ?? []).map(doc => ({
+        name: doc.fields.name.stringValue,
+        message: doc.fields.message.stringValue,
+        created_at: doc.fields.created_at.timestampValue,
     }));
+    return { entries, nextToken: data.nextPageToken ?? null };
 }
 async function loadEntries() {
     try {
-        const entries = await fetchPage(null);
+        const { entries, nextToken } = await fetchPage(null);
         renderEntries(entries);
-        const last = entries[entries.length - 1];
-        lastCreatedAt = last !== undefined ? last.created_at : null;
-        loadMoreBtn.hidden = entries.length < PAGE_SIZE;
+        nextPageToken = nextToken;
+        loadMoreBtn.hidden = nextToken === null;
     }
     catch {
         entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
@@ -104,12 +91,10 @@ loadMoreBtn.addEventListener('click', () => {
     loadMoreBtn.textContent = 'Loading...';
     void (async () => {
         try {
-            const entries = await fetchPage(lastCreatedAt);
+            const { entries, nextToken } = await fetchPage(nextPageToken);
             appendEntries(entries);
-            const last = entries[entries.length - 1];
-            if (last !== undefined)
-                lastCreatedAt = last.created_at;
-            if (entries.length < PAGE_SIZE)
+            nextPageToken = nextToken;
+            if (nextToken === null)
                 loadMoreBtn.hidden = true;
         }
         finally {

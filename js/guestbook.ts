@@ -12,27 +12,17 @@ interface GuestbookEntry {
   created_at: string;
 }
 
-type FirestoreDoc = {
+interface FirestoreDoc {
   fields: {
     name: { stringValue: string };
     message: { stringValue: string };
     created_at: { timestampValue: string };
   };
-};
-
-interface FirestoreQueryResult {
-  document?: FirestoreDoc;
 }
 
-type StructuredQuery = {
-  from: Array<{ collectionId: string }>;
-  orderBy: Array<{ field: { fieldPath: string }; direction: string }>;
-  limit: number;
-  startAfter?: { values: Array<{ timestampValue: string }> };
-};
-
-function hasDocument(r: FirestoreQueryResult): r is { document: FirestoreDoc } {
-  return r.document !== undefined;
+interface FirestoreListResponse {
+  documents?: FirestoreDoc[];
+  nextPageToken?: string;
 }
 
 const form = document.getElementById('guestbook-form') as HTMLFormElement;
@@ -47,7 +37,7 @@ const entriesEl = document.getElementById('guestbook-entries') as HTMLElement;
 const loadMoreBtn = document.getElementById('guestbook-load-more') as HTMLButtonElement;
 const funStuff = document.getElementById('fun-stuff') as HTMLElement;
 
-let lastCreatedAt: string | null = null;
+let nextPageToken: string | null = null;
 
 function escapeHtml(str: string): string {
   return str
@@ -100,42 +90,31 @@ function setStatus(text: string, kind: 'ok' | 'err' | ''): void {
   statusEl.className = kind === '' ? 'guestbook-status' : `guestbook-status guestbook-status-${kind}`;
 }
 
-async function fetchPage(cursor: string | null): Promise<GuestbookEntry[]> {
-  const sq: StructuredQuery = {
-    from: [{ collectionId: 'guestbook' }],
-    orderBy: [{ field: { fieldPath: 'created_at' }, direction: 'DESCENDING' }],
-    limit: PAGE_SIZE,
-  };
-  if (cursor !== null) {
-    sq.startAfter = { values: [{ timestampValue: cursor }] };
+async function fetchPage(token: string | null): Promise<{ entries: GuestbookEntry[]; nextToken: string | null }> {
+  let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=${PAGE_SIZE}&key=${FIREBASE_API_KEY}`;
+  if (token !== null) {
+    url += `&pageToken=${encodeURIComponent(token)}`;
   }
 
-  const res = await fetch(
-    `${FIRESTORE_BASE}:runQuery?key=${FIREBASE_API_KEY}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ structuredQuery: sq }),
-    }
-  );
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const rows = (await res.json()) as FirestoreQueryResult[];
-  return rows
-    .filter(hasDocument)
-    .map(r => ({
-      name: r.document.fields.name.stringValue,
-      message: r.document.fields.message.stringValue,
-      created_at: r.document.fields.created_at.timestampValue,
-    }));
+  const data = (await res.json()) as FirestoreListResponse;
+
+  const entries: GuestbookEntry[] = (data.documents ?? []).map(doc => ({
+    name: doc.fields.name.stringValue,
+    message: doc.fields.message.stringValue,
+    created_at: doc.fields.created_at.timestampValue,
+  }));
+
+  return { entries, nextToken: data.nextPageToken ?? null };
 }
 
 async function loadEntries(): Promise<void> {
   try {
-    const entries = await fetchPage(null);
+    const { entries, nextToken } = await fetchPage(null);
     renderEntries(entries);
-    const last = entries[entries.length - 1];
-    lastCreatedAt = last !== undefined ? last.created_at : null;
-    loadMoreBtn.hidden = entries.length < PAGE_SIZE;
+    nextPageToken = nextToken;
+    loadMoreBtn.hidden = nextToken === null;
   } catch {
     entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
   }
@@ -146,11 +125,10 @@ loadMoreBtn.addEventListener('click', () => {
   loadMoreBtn.textContent = 'Loading...';
   void (async () => {
     try {
-      const entries = await fetchPage(lastCreatedAt);
+      const { entries, nextToken } = await fetchPage(nextPageToken);
       appendEntries(entries);
-      const last = entries[entries.length - 1];
-      if (last !== undefined) lastCreatedAt = last.created_at;
-      if (entries.length < PAGE_SIZE) loadMoreBtn.hidden = true;
+      nextPageToken = nextToken;
+      if (nextToken === null) loadMoreBtn.hidden = true;
     } finally {
       loadMoreBtn.disabled = false;
       loadMoreBtn.textContent = 'Load more';
