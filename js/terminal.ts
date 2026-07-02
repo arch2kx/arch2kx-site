@@ -176,58 +176,86 @@ function bneofetchOutput(): string {
   const vp    = `${window.innerWidth}x${window.innerHeight}`;
   const depth = `${window.screen.colorDepth}bpp`;
 
-  const logos: Record<string, string[]> = {
+  // Segment-based colored logos.
+  // Each line is an array of {t: text, c?: css-color}.
+  // Visual width = sum of t.length (HTML tags don't count).
+  interface Seg { t: string; c?: string }
+  type LLine = Seg[];
+
+  function lw(line: LLine): number {
+    return line.reduce((n, s) => n + s.t.length, 0);
+  }
+  function lh(line: LLine): string {
+    return line.map(s =>
+      s.c !== undefined
+        ? `<span style="color:${s.c}">${escapeHtml(s.t)}</span>`
+        : escapeHtml(s.t)
+    ).join('');
+  }
+
+  // Browser brand colors
+  const CR = '#EA4335'; const CG = '#34A853';
+  const CY = '#FBBC04'; const CB = '#4285F4';
+  const FO = '#FF7139'; const FB = '#0060DF';
+  const EB = '#0078D4'; const ET = '#50E6FF';
+  const SB = '#006CFF'; const SR = '#FF375F';
+
+  const n = (t: string): Seg => ({ t });
+  const c = (t: string, col: string): Seg => ({ t, c: col });
+
+  const logos: Record<string, LLine[]> = {
     Chrome: [
-      '    .~~~~~~.    ',
-      '   /  .---.  \\ ',
-      '  / R/     \\G \\ ',
-      ' /   \\     /   \\',
-      '|  G  (  B  )  |',
-      ' \\   /     \\   /',
-      '  \\ Y\\     /Y /',
-      '   \\  `---`  / ',
-      '    `~~~~~~`   ',
+      [n('     .~~~~~~.     ')],
+      [n('    /'), c('RR', CR), n('    '), c('GG', CG), n('\\    ')],
+      [n('   /'), c('R', CR), n('  .---. '), c('G', CG), n('\\   ')],
+      [n('  |'), c('R', CR), n('  / '), c('BBB', CB), n(' \\ '), c('G', CG), n('|  ')],
+      [n('  |'), c('R', CR), n('  \\ '), c('BBB', CB), n(' / '), c('G', CG), n('|  ')],
+      [n('   \\'), c('Y', CY), n('  `---`  '), c('Y', CY), n('/  ')],
+      [n('    \\'), c('YY', CY), n('      '), c('YY', CY), n('/   ')],
+      [n('     `~~~~~~`     ')],
     ],
     Firefox: [
-      '   .~~~~~~~.   ',
-      '  /  .~~~.  \\  ',
-      ' / /  .-.  \\ \\ ',
-      '| | (( o )) | |',
-      '| |  ):::(  | |',
-      ' \\ \\ `~~~` / / ',
-      '  \\  `~~~`  /  ',
-      '   `~~~~~~~`   ',
+      [n('    .~~~~~~~.    ')],
+      [n('   /'), c('OOOOOOOOO', FO), n('\\   ')],
+      [n('  /'), c('OO', FO), n(' .~~~. '), c('OO', FO), n('\\  ')],
+      [n('  |'), c('OO', FO), n(' / '), c('BBB', FB), n(' \\ '), c('OO', FO), n('|  ')],
+      [n('  |'), c('OO', FO), n('( '), c('BBBBB', FB), n(' )'), c('OO', FO), n('|  ')],
+      [n('  |'), c('OO', FO), n(' \\ '), c('BBB', FB), n(' / '), c('OO', FO), n('|  ')],
+      [n('  |'), c('OO', FO), n(' `~~~` '), c('OO', FO), n('|  ')],
+      [n('   \\'), c('OOOOOOOOO', FO), n('/   ')],
+      [n('    `~~~~~~~`    ')],
     ],
     Edge: [
-      '   .~~~~~~~.   ',
-      '  /  .~~~~. \\  ',
-      ' / / /    \\ \\ ',
-      '| | (      ) | ',
-      '| |  \\____/  | ',
-      '| |   \\      | ',
-      ' \\ \\   `~~~` / ',
-      '  `~~~~~~~~~~` ',
+      [n('    .~~~~~~~.    ')],
+      [n('   /'), c('~~~~~~~~~~~', EB), n('\\   ')],
+      [n('  /'), c('~~', EB), n(' .~~~~~. '), c('~~', ET), n('\\  ')],
+      [n('  |'), c('~~', EB), n(' / '), c('~~~~~', ET), n(' \\ '), c('~~', EB), n('|  ')],
+      [n('  |'), c('~~', EB), n('(  '), c('~~~~~', ET), n('  )'), c('~~', EB), n('|  ')],
+      [n('  |'), c('~~', EB), n(' \\ '), c('~~~~~', ET), n(' / '), c('~~', EB), n('|  ')],
+      [n('  |'), c('~~', EB), n(' `~~~~~` '), c('~~', EB), n('|  ')],
+      [n('   \\'), c('~~~~~~~~~~~', EB), n('/   ')],
+      [n('    `~~~~~~~`    ')],
     ],
     Safari: [
-      '  .---------.  ',
-      ' /     N     \\ ',
-      '|   /     \\   |',
-      '|  / .~~~. \\  |',
-      '|W |  (N)  | E|',
-      '|  \\ `~~~` /  |',
-      '|   \\     /   |',
-      ' \\     S     / ',
-      '  `---------`  ',
+      [n('    .-------.    ')],
+      [n('   /    '), c('N', SR), n('    \\   ')],
+      [n('  /  '), c('NW', SB), n('   '), c('NE', SB), n('  \\  ')],
+      [n('  |   /   \\   |  ')],
+      [n('  | '), c('W', SB), n(' --'), c('(+)', SR), n('-- '), c('E', SB), n(' |  ')],
+      [n('  |   \\   /   |  ')],
+      [n('  \\  '), c('SW', SB), n('   '), c('SE', SB), n('  /  ')],
+      [n('   \\    '), c('S', SR), n('    /   ')],
+      [n('    `-------`    ')],
     ],
     Unknown: [
-      ' .------------.',
-      ' | o o o |###|',
-      ' |------------|',
-      ' |            |',
-      ' |  you are   |',
-      ' |    here    |',
-      ' |            |',
-      ' `------------`',
+      [n(' .------------. ')],
+      [n(' | o o o |###| ')],
+      [n(' |------------| ')],
+      [n(' |            | ')],
+      [n(' |  you are   | ')],
+      [n(' |    here    | ')],
+      [n(' |            | ')],
+      [n(' `------------` ')],
     ],
   };
 
@@ -248,13 +276,14 @@ function bneofetchOutput(): string {
     `<b class="c-arch">Online:</b> <span class="c-val">${navigator.onLine ? 'yes' : 'no'}</span>`,
   ];
 
-  const LOGO_WIDTH = 18;
+  const LOGO_WIDTH = 20;
   const total = Math.max(logo.length, info.length);
   const lines: string[] = [];
   for (let i = 0; i < total; i++) {
-    const logoLine = (logo[i] ?? '').padEnd(LOGO_WIDTH);
+    const ll = logo[i] ?? [];
+    const pad = ' '.repeat(Math.max(0, LOGO_WIDTH - lw(ll)));
     const infoLine = info[i] ?? '';
-    lines.push(`<div><span class="c-arch-reg">${logoLine}</span>  ${infoLine}</div>`);
+    lines.push(`<div>${lh(ll)}${pad}  ${infoLine}</div>`);
   }
   return lines.join('');
 }
