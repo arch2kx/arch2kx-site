@@ -47,11 +47,7 @@ function escapeHtml(str: string): string {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  return new Date(iso).toISOString().slice(0, 10);
 }
 
 function renderEntries(entries: GuestbookEntry[]): void {

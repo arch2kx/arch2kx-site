@@ -23,11 +23,7 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 function formatDate(iso) {
-    return new Date(iso).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-    });
+    return new Date(iso).toISOString().slice(0, 10);
 }
 function renderEntries(entries) {
     if (entries.length === 0) {
