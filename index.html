@@ -36,6 +36,7 @@
     <style>:root{--bg:#f3f4f6}.dark{--bg:#161616}html,body{background-color:var(--bg)}</style>
     <script type="module" src="js/theme.js"></script>
     <script type="module" src="js/terminal.js"></script>
+    <script type="module" src="js/guestbook.js"></script>
   </head>
   <body>
 
@@ -216,6 +217,33 @@
           </div>
         </div>
         -->
+
+        <!-- Guest Book section -->
+        <div class="funstuff-section">
+          <h2 class="funstuff-section-label">Guest Book</h2>
+
+          <form id="guestbook-form" class="guestbook-form">
+            <!-- Honeypot: bots fill this, humans don't see it -->
+            <input type="text" id="guestbook-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <div class="guestbook-field">
+              <input type="text" id="guestbook-name" placeholder="Your name" maxlength="50" required autocomplete="off" spellcheck="false">
+              <span class="guestbook-count" id="guestbook-name-count">0 / 50</span>
+            </div>
+
+            <div class="guestbook-field">
+              <textarea id="guestbook-message" placeholder="Leave a message..." maxlength="280" required spellcheck="true"></textarea>
+              <span class="guestbook-count" id="guestbook-msg-count">0 / 280</span>
+            </div>
+
+            <button type="submit" id="guestbook-submit" class="guestbook-submit-btn">Sign</button>
+            <p id="guestbook-status" class="guestbook-status" aria-live="polite"></p>
+          </form>
+
+          <div id="guestbook-entries" class="guestbook-entries">
+            <p class="guestbook-empty">Loading entries...</p>
+          </div>
+        </div>
 
       </div>
     </section>

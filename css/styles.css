@@ -716,3 +716,130 @@ img.ext-icon {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Guest Book ──────────────────────────────── */
+#guestbook-honeypot {
+  display: none;
+}
+
+.guestbook-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 36rem;
+}
+
+.guestbook-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.guestbook-form input[type="text"],
+.guestbook-form textarea {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 150ms ease;
+}
+
+.guestbook-form input[type="text"]:focus,
+.guestbook-form textarea:focus {
+  border-color: #199de3;
+}
+
+.guestbook-form textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.guestbook-count {
+  font-size: 0.75rem;
+  color: var(--coming-text);
+  text-align: right;
+}
+
+.guestbook-submit-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid var(--btn-border);
+  border-radius: 5px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.5rem;
+  transition: background 100ms ease, border-color 100ms ease, opacity 150ms ease;
+}
+
+.guestbook-submit-btn:hover:not(:disabled) {
+  background-color: var(--btn-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.guestbook-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.guestbook-status {
+  font-size: 0.875rem;
+  margin: 0;
+  min-height: 1.2em;
+}
+
+.guestbook-status-ok  { color: #1dd35f; }
+.guestbook-status-err { color: #ff5737; }
+
+.guestbook-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  max-width: 36rem;
+}
+
+.guestbook-entry {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.guestbook-entry-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.guestbook-entry-msg {
+  margin: 0;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.guestbook-entry-date {
+  font-size: 0.75rem;
+  color: var(--coming-text);
+}
+
+.guestbook-empty,
+.guestbook-error {
+  font-size: 0.875rem;
+  color: var(--coming-text);
+  margin: 0;
+}
+
+.guestbook-error {
+  color: #ff5737;
+}
