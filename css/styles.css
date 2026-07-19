@@ -694,6 +694,7 @@ img.ext-icon {
   }
 
   .projects-grid {
+    padding-top: 2.5rem;
     grid-template-columns: 1fr;
   }
 
