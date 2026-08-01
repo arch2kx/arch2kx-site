@@ -4,12 +4,31 @@
   <meta charset="UTF-8">
   <title>Privacy Policies</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark');}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link rel="stylesheet" href="../css/privacy-policy-styles.css">
 </head>
 <body>
-  <h1>Privacy Policies</h1>
-  <p>Privacy policy pages for stuff I made:</p>
-  <ul>
-    <li><a href="/privacy/seiasinger/">SeiaSinger</a></li>
-  </ul>
+  <main class="policy-main">
+    <a class="policy-home-btn" href="/">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back to Home
+    </a>
+    <div class="policy-card">
+      <h1>Privacy Policies</h1>
+      <h3>Privacy policy pages for stuff I made</h3>
+      <ul class="policy-list">
+        <li>
+          <a href="/privacy/site/">Main Site</a>
+        </li>
+        <li>
+          <a href="/privacy/seiasinger/">SeiaSinger Fork</a>
+        </li>
+      </ul>
+    </div>
+  </main>
 </body>
 </html>

@@ -204,6 +204,13 @@ a {
   cursor: pointer;
 }
 
+.privacy-link {
+  display: flex;
+  align-items: center;
+  color: var(--icon);
+  cursor: pointer;
+}
+
 /* ── Main page ──────────────────────────────── */
 .main-main {
   max-width: clamp(35rem, 29vw, 80rem);
