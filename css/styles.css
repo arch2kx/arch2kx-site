@@ -474,7 +474,7 @@ img.ext-icon {
 }
 
 .funstuff-inner {
-  max-width: clamp(64rem, 72vw, 140rem);
+  max-width: min(100%, clamp(64rem, 72vw, 140rem));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -562,17 +562,17 @@ img.ext-icon {
 }
 
 .terminal {
-  width: 100ch;
+  width: min(100ch, 100%);
   height: 30lh;
   margin: 0 auto;
   background: #1f1f1f;
   color: #f2f2f2;
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.94rem;
+  font-size: clamp(0.68rem, 1.6vw, 0.94rem);
   font-weight: 500;
   line-height: 1.3;
   border-radius: 8px;
-  padding: 2rem;
+  padding: 2.13em;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -582,8 +582,9 @@ img.ext-icon {
 
 #output {
   flex: 1;
+  overflow-x: auto;
   overflow-y: auto;
-  white-space: pre-wrap;
+  white-space: pre;
   scrollbar-width: none;
 }
 
