@@ -7,6 +7,7 @@
   --surface:            #ffffff;
   --border:             #cccccc;
   --text:               #545454;
+  --home-text:          #cccccc;
   --icon:               #2b2b2b;
   --nav-btn:            #2b2b2b;
   --nav-btn-hover:      #3e3e3e;
@@ -14,6 +15,7 @@
   --btn-border:         #bababa;
   --btn-border-hover:   #b7b8b9;
   --btn-hover:          #e4e5e7;
+  --btn-hover-home:     #0f0f0f;
   --coming-border:      #d1d5db;
   --coming-text:        #737373;
 }
@@ -24,6 +26,7 @@
   --surface:            #1f1f1f;
   --border:             #515151;
   --text:               #cccccc;
+  --home-text:          #262626;
   --icon:               #d1d5db;
   --nav-btn:            #171717;
   --nav-btn-hover:      #353434;
@@ -31,6 +34,7 @@
   --btn-border:         #727272;
   --btn-border-hover:   #8c8c8c;
   --btn-hover:          #323232;
+  --btn-hover-home:     #9a9b9c;
   --coming-border:      #4b5563;
   --coming-text:        #afafaf;
 }
@@ -52,6 +56,7 @@
 
 .page.active {
   display: block;
+  flex: 1 0 auto;
   animation: page-enter 0.5s ease both;
 }
 
@@ -65,6 +70,12 @@ html {
      (padding, widths, text) grow proportionally on large/4K displays.
      Below ~1928px (including 1080p) it stays pinned at 16px. */
   font-size: clamp(16px, 0.83vw, 28px);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 *, *::before, *::after {
@@ -81,6 +92,8 @@ body {
   background-color: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -112,6 +125,18 @@ a {
   padding: 0.75rem 1.5rem;
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
+}
+
+body:has(#main.page.active) .topbar {
+  isolation: isolate;
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
+}
+
+.dark body:has(#main.page.active) .topbar {
+  background-color: rgba(31, 31, 31, 0.55);
 }
 
 .topbar-home {
@@ -212,10 +237,25 @@ a {
 }
 
 /* ── Main page ──────────────────────────────── */
+body:has(#main.page.active) {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--bg) 50%, transparent), color-mix(in srgb, var(--bg) 55%, transparent)),
+    url('../images/BG_AronaRoom.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.dark body:has(#main.page.active) {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--bg) 90%, transparent), color-mix(in srgb, var(--bg) 55%, transparent)),
+    url('../images/BG_AronaRoom_Night.jpg');
+}
+
 .main-main {
+  font-size: clamp(1rem, 0.35vw + 0.88rem, 1.12rem);
   max-width: clamp(35rem, 29vw, 80rem);
   margin: 4rem auto 0;
-  padding: 0 1rem;
+  padding: 0 5rem;
 }
 
 .main-card {
@@ -228,9 +268,10 @@ a {
 
 .main-logo-wrap {
   position: relative;
-  max-width: 24rem;
-  margin: 0 auto 4rem;
+  max-width: 24em;
+  margin: 0 auto 4em;
 }
+
 
 .main-logo {
   display: block;
@@ -246,24 +287,43 @@ a {
 .dark .logo-dark  { opacity: 1; }
 
 .main-tagline {
-  font-size: 1.125rem;
-  margin: 0 0 2rem;
+  font-size: 1.125em;
+  margin: 0 0 2em;
+  color: var(--icon);
+}
+
+.main-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .explore-btn {
   display: inline-block;
-  border: 1px solid var(--btn-border);
-  color: var(--text);
-  border-radius: 5px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 1rem;
+  border: 1px solid rgb(200, 200, 200);
+  background-color: rgb(212, 238, 238);
+  color: rgb(0, 43, 79);
+  border-radius: 0.3em;
   padding: 0.625rem 2rem;
-  font-weight: 400;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 100ms ease;
+  user-select: none;
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  transform: skewX(-16deg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.explore-btn:hover {
-  background-color: var(--btn-hover);
-  border: 1px solid var(--btn-border-hover);
+.explore-btn span {
+  display: block;
+  transform: skewX(16deg);
+}
+
+.explore-btn:active {
+  transform: skewX(-16deg) scale(0.95);
 }
 
 /* ── About page ──────────────────────────────── */
@@ -628,12 +688,26 @@ img.ext-icon {
 
 /* ── Footer ──────────────────────────────────── */
 .site-footer {
+  flex-shrink: 0;
   text-align: center;
   margin-top: 4rem;
   padding: 2rem 1.5rem;
   border-top: 1px solid var(--border);
   color: var(--coming-text);
   font-size: 0.875rem;
+}
+
+body:has(#main.page.active) .site-footer {
+  position: relative;
+  isolation: isolate;
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
+}
+
+.dark body:has(#main.page.active) .site-footer {
+  background-color: rgba(31, 31, 31, 0.75);
 }
 
 .site-footer p {
@@ -687,14 +761,30 @@ img.ext-icon {
 
   .main-main {
     margin-top: 2rem;
+    padding: 0 1.5rem;
   }
 
   .main-card {
     padding: 2rem 1.25rem;
   }
 
+  .main-logo {
+    display: block;
+    width: 100%;
+    justify-content: center;
+  }
+
   .main-logo-wrap {
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .main-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .explore-btn {
+    text-align: center;
   }
 
   .projects-main {
