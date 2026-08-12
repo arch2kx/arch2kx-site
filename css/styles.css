@@ -9,6 +9,7 @@
   --text:               #545454;
   --home-text:          #cccccc;
   --icon:               #2b2b2b;
+  --explore-btn:        #e3ffff;
   --nav-btn:            #2b2b2b;
   --nav-btn-hover:      #3e3e3e;
   --nav-btn-active:     #199de3;
@@ -28,6 +29,7 @@
   --text:               #cccccc;
   --home-text:          #262626;
   --icon:               #d1d5db;
+  --explore-btn:        #d4eeee;
   --nav-btn:            #171717;
   --nav-btn-hover:      #353434;
   --nav-btn-active:     #199de3;
@@ -239,7 +241,7 @@ body:has(#main.page.active) .topbar {
 /* ── Main page ──────────────────────────────── */
 body:has(#main.page.active) {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--bg) 50%, transparent), color-mix(in srgb, var(--bg) 55%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 55%, transparent)),
     url('../images/BG_AronaRoom.jpg');
   background-size: cover;
   background-position: center;
@@ -305,7 +307,7 @@ body:has(#main.page.active) {
   white-space: nowrap;
   font-size: 1rem;
   border: 1px solid rgb(200, 200, 200);
-  background-color: rgb(212, 238, 238);
+  background-color: var(--explore-btn);
   color: rgb(0, 43, 79);
   border-radius: 0.3em;
   padding: 0.625rem 2rem;
