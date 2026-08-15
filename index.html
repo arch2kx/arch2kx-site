@@ -30,6 +30,8 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"></noscript>
     <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap"></noscript>
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
@@ -96,121 +98,109 @@
     <section id="projects" class="page projects-main">
       <div class="projects-grid">
 
-        <div class="project-card">
-          <div class="card-banner banner-img">
-            <img class="card-banner-bg" src="images/aronasay_banner.webp" alt="">
-            <div class="card-icon-box">
-              <img src="images/arona.webp" alt="Aronasay">
-            </div>
-          </div>
-          <div class="card-body">
-            <p class="card-title">Aronasay</p>
-            <p class="card-desc">Cowsay but Arona from Blue Archive!</p>
-            <span class="more-buttons">
-              <a href="https://github.com/arch2kx/aronasay/" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
-              <a href="https://arch2kx.github.io/aronasay/" class="website-btn" target="_blank" rel="noopener noreferrer">Website →</a>
-            </span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-banner banner-img">
-            <img class="card-banner-bg" src="images/basq-banner.webp" alt="">
-            <div class="card-icon-box">
-              <img src="images/ba_student_quiz_icon.webp" alt="Blue Archive Student Quiz">
-            </div>
-          </div>
-          <div class="card-body">
-            <p class="card-title">Blue Archive Student Quiz</p>
-            <p class="card-desc">Test your Blue Archive knowledge on students' traits!</p>
-            <span class="more-buttons">
-              <a href="https://github.com/arch2kx/archs-ba-student-quiz/" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
-              <a href="https://arch2kx.github.io/archs-ba-student-quiz/" class="website-btn" target="_blank" rel="noopener noreferrer">Website →</a>
-            </span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-banner banner-img">
-            <img class="card-banner-bg" src="images/etp_banner.webp" alt="Eden Treaty Pandemonium Banner">
-            <div class="card-icon-box">
-              <img src="images/mika_etp_icon.webp" alt="">
-            </div>
-          </div>
-          <div class="card-body">
+        <!-- Featured -->
+        <div class="project-card card-featured card-accent-cyan">
+          <div class="card-info">
+            <p class="card-flag"><i class="fa-solid fa-star" aria-hidden="true"></i> Featured</p>
+            <img class="card-corner-icon" src="images/mika_etp_icon.webp" alt="">
             <p class="card-title">Eden Treaty Pandemonium</p>
             <p class="card-desc">Get the Trinity-loving princess to fight against Gehenna students!</p>
-            <span class="more-buttons">
-              <a href="https://github.com/arch2kx/ETPRaylib/" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
-              <a href="https://arch-kun.itch.io/etp-raylib" class="website-btn" target="_blank" rel="noopener noreferrer">itch.io →</a>
-            </span>
+            <div class="card-links">
+              <a href="https://arch-kun.itch.io/etp-raylib" class="card-link-btn" target="_blank" rel="noopener noreferrer">itch.io</a>
+              <a href="https://github.com/arch2kx/ETPRaylib/" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+              </a>
+            </div>
+          </div>
+          <div class="card-shot-wrap">
+            <img class="card-shot" src="images/etp_showcase.png" alt="Eden Treaty Pandemonium screenshot">
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="card-banner banner-construction">
-            <div class="card-icon-box">
-              <img src="images/construction.webp" alt="Blue Archive Student Quiz">
-            </div>
-          </div>
-          <div class="card-body">
-            <p class="card-title">Annoying BA Popup</p>
-            <p class="card-desc">Chrome/Firefox Extension that annoys you, I guess.</p>
-            <span class="ext-icon-frame">
-              <a>
-                <img src="images/chrome-icon.webp" alt="Chrome" class="ext-icon-cs" border="0" />
-              </a>
-              <a>
-                <img src="images/firefox-icon.webp" alt="Firefox" class="ext-icon-cs" border="0" />
-              </a>
-            </span>
-            <a class="coming-soon" target="_blank" rel="noopener noreferrer">Coming Soon</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-banner banner-img">
-            <img class="card-banner-bg" src="images/ss_fork_banner.webp" alt="Sechify TypeScript Banner">
-            <div class="card-icon-box">
-              <img src="images/ss_fork_icon.webp" alt="SechifyTS">
-            </div>
-          </div>
-          <div class="card-body">
-            <p class="card-title">SeiaSinger Fork</p>
-            <p class="card-desc">Chrome/Firefox extension of Seia singing on a browser tab with video.</p>
-            <span class="ext-icon-frame">
-              <a href="https://chromewebstore.google.com/detail/seiasinger-fork/aaaimdncfahhjnmfcgcfkahemmaepnha" target="_blank" rel="noopener">
-                <img src="images/chrome-icon.webp" alt="Chrome" class="ext-icon" border="0" />
-              </a>
-              <a href="https://addons.mozilla.org/en-US/firefox/addon/seiasinger-fork/" target="_blank" rel="noopener">
-                <img src="images/firefox-icon.webp" alt="Firefox" class="ext-icon" border="0" />
-              </a>
-            </span>
-            <a href="https://github.com/arch2kx/SeiaSingerFork" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="card-banner banner-img">
-            <img class="card-banner-bg" src="images/sechifyts-banner.webp" alt="Sechify TypeScript Banner">
-            <div class="card-icon-box">
-              <img src="images/sechifyts-icon-128.webp" alt="SechifyTS">
-            </div>
-          </div>
+        <!-- Banner -->
+        <div class="project-card card-banner card-accent-royal">
+          <img class="card-corner-icon" src="images/sechifyts-icon-128.webp" alt="">
           <div class="card-body">
             <p class="card-title">Sechify TypeScript</p>
-            <p class="card-desc">Chrome/Firefox Extension forked from Chikenuwu's Sechify.</p>
-            <span class="ext-icon-frame">
-              <a href="https://chromewebstore.google.com/detail/sechify-typescript/cbhcngldimloilgbhaikkndnjogdjdap" target="_blank" rel="noopener">
-                <img src="images/chrome-icon.webp" alt="Chrome" class="ext-icon" border="0" />
+            <p class="card-desc">Claude is gonna cook (or not)<br>Please try your best haha</p>
+            <div class="card-links">
+              <a href="https://chromewebstore.google.com/detail/sechify-typescript/cbhcngldimloilgbhaikkndnjogdjdap" class="card-link-btn" target="_blank" rel="noopener">
+                <img src="images/chrome-icon.webp" alt=""> Chrome
               </a>
-              <a href="https://addons.mozilla.org/en-US/firefox/addon/sechify-typescript/" target="_blank" rel="noopener">
-                <img src="images/firefox-icon.webp" alt="Firefox" class="ext-icon" border="0" />
+              <a href="https://addons.mozilla.org/en-US/firefox/addon/sechify-typescript/" class="card-link-btn" target="_blank" rel="noopener">
+                <img src="images/firefox-icon.webp" alt=""> Firefox
               </a>
-            </span>
-            <a href="https://github.com/arch2kx/SechifyTS" class="website-btn" target="_blank" rel="noopener noreferrer">GitHub →</a>
+              <a href="https://github.com/arch2kx/SechifyTS" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+              </a>
+            </div>
           </div>
         </div>
+
+        <div class="project-card">
+          <div class="card-head">
+            <p class="card-title">Aronasay</p>
+            <img class="card-corner-icon" src="images/arona.webp" alt="">
+          </div>
+          <div class="card-body">
+            <p class="card-desc">Cowsay but Arona from Blue Archive!</p>
+            <div class="card-links">
+              <a href="https://arch2kx.github.io/aronasay/" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
+              </a>
+              <a href="https://github.com/arch2kx/aronasay/" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-head">
+            <p class="card-title">Blue Archive Student Quiz</p>
+            <img class="card-corner-icon" src="images/ba_student_quiz_icon.webp" alt="">
+          </div>
+          <div class="card-body">
+            <p class="card-desc">Test your Blue Archive knowledge on students' traits!</p>
+            <div class="card-links">
+              <a href="https://arch2kx.github.io/archs-ba-student-quiz/" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
+              </a>
+              <a href="https://github.com/arch2kx/archs-ba-student-quiz/" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-head">
+            <p class="card-title">SeiaSinger Fork</p>
+            <img class="card-corner-icon" src="images/ss_fork_icon.webp" alt="">
+          </div>
+          <div class="card-body">
+            <p class="card-desc">Chrome/Firefox extension of Seia singing on a browser tab with video.</p>
+            <div class="card-links">
+              <a href="https://chromewebstore.google.com/detail/seiasinger-fork/aaaimdncfahhjnmfcgcfkahemmaepnha" class="card-link-btn" target="_blank" rel="noopener">
+                <img src="images/chrome-icon.webp" alt=""> Chrome
+              </a>
+              <a href="https://addons.mozilla.org/en-US/firefox/addon/seiasinger-fork/" class="card-link-btn" target="_blank" rel="noopener">
+                <img src="images/firefox-icon.webp" alt=""> Firefox
+              </a>
+              <a href="https://github.com/arch2kx/SeiaSingerFork" class="card-link-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card card-soon">
+          <div class="card-head">
+            <p class="card-title">Coming Soon</p>
+          </div>
+          <img class="soon-barrier" src="images/construction.webp" alt="" aria-hidden="true">
+        </div>
+
       </div>
     </section>
 

@@ -348,182 +348,333 @@ body:has(#main.page.active) {
 
 /* ── Projects page ───────────────────────────── */
 .projects-main {
-  /* max-width: clamp(64rem, 53vw, 120rem); */
-  margin: 0 0;
-  padding: 2rem;
+  width: 100%;
+  /* Capped at 88rem: past that the cards just spread and leave gaps,
+     since the text and screenshot both have max widths of their own. */
+  max-width: clamp(64rem, 85vw, 88rem);
+  margin: 0 auto;
+  padding: clamp(1rem, 2.5vw, 2rem);
 }
 
 .projects-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-left: 0px;
-    margin-right: 0px;
+  display: grid;
+  /* minmax(0, 1fr) instead of 1fr: lets columns shrink below their content
+     width instead of blowing the grid out on long titles. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
-.project-card {
-  background-color: var(--surface);
-  height: auto;
-  width: 100%;
-  max-width: 18.75rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.09), 0 1px 3px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 250ms ease, box-shadow 250ms ease, background-color 150ms ease, border-color 150ms ease;
-}
-
-@media (min-width: 768px) {
+/* One column once two would be narrower than ~19rem each */
+@media (max-width: 46rem) {
   .projects-grid {
-    justify-content: flex-start; 
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
-.project-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10), 0 2px 5px rgba(0, 0, 0, 0.10);
-}
-
-.card-banner {
-  height: 8rem;
-  padding: 1rem;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.card-banner-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card-icon-box {
+.project-card {
   position: relative;
-  z-index: 1;
-  width: 4.5rem;
-  height: 4.5rem;
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  padding: 1.25rem;
+  min-height: 9.5rem;
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.project-card:hover {
+  border-color: var(--btn-border-hover);
+  background-color: var(--btn-hover);
+}
+
+/* Head row of a small card: title left, icon right */
+.card-head {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.card-icon-box img {
-  width: 3rem;
-  height: 3rem;
-  object-fit: contain;
-}
-
-.card-banner-icon {
-  font-size: 2rem;
-  color: #199de3;
-}
-
-.card-desc {
-  margin: 0 0 1.2rem;
-  font-size: 0.8rem;
+  justify-content: space-between;
+  gap: 0.9rem;
 }
 
 .card-body {
-  padding: 1.1rem;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.more-buttons {
-  margin-top: auto;
-  padding-top: 20px;
-  display: grid;
-  grid-auto-flow: column;
-  width: 100%;
-  gap: 5px;
-}
-
-.ext-icon-frame {
-  display: flex;
-  align-items: center;
-  align-self: flex-start;
-  margin-bottom: 0.7rem;
-  gap: 3px;
-}
-
-.ext-icon {
-  align-items: center;
-}
-
-.ext-icon-cs {
-  align-items: center;
-  filter: brightness(60%);
-  pointer-events: none;
-  cursor: not-allowed;
-}
-
-img.ext-icon-cs {
-  display: block;
-  width: 3rem;
-  height: 3rem;
-}
-
-img.ext-icon {
-  display: block;
-  width: 3rem;
-  height: 3rem;
-}
-
-.website-btn, .coming-soon {
-  margin-top: auto;
-}
-
 .card-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin: 0 0 0.3rem;
+  font-family: 'Unbounded', 'Noto Sans', sans-serif;
+  font-weight: 800;
+  /* min, fluid, max — shrinks with the viewport instead of overflowing */
+  font-size: clamp(1.15rem, 1.6vw + 0.55rem, 1.6rem);
+  letter-spacing: -0.01em;
+  color: var(--icon);
+  line-height: 1.15;
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
-.website-btn {
-  display: flex;
-  border: 1px solid var(--btn-border);
+.card-desc {
+  font-size: 0.85rem;
   color: var(--text);
-  border-radius: 5px;
-  padding: 0.6rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  flex: 1;
+  max-width: 42ch;
 }
 
-.website-btn:hover {
+.card-corner-icon {
+  flex: 0 0 auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.6rem;
+  object-fit: contain;
+  padding: 0.4rem;
   background-color: var(--btn-hover);
+  border: 1px solid var(--border);
 }
 
-.coming-soon {
-  display: inline-block;
-  border: 1px solid var(--coming-border);
-  color: var(--coming-text);
-  border-radius: 5px;
-  padding: 0.6rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 400;
-  opacity: 0.6;
-  cursor: not-allowed;
+.card-links {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: auto;
+}
+
+.card-link-btn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--icon);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--btn-border);
+  /* Fixed height so a bigger icon never changes the button size */
+  height: 2.4rem;
+  padding: 0 1.2rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.card-link-btn:hover {
+  background: var(--btn-hover);
+  border-color: var(--btn-border-hover);
+}
+
+/* Icon size is independent of the button box (max ~1.6rem before it crowds the edges) */
+.card-link-btn img {
+  width: 1.3rem;
+  height: 1.3rem;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.card-link-btn i {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ── Featured card (full width, with screenshot) ── */
+.card-featured,
+.card-banner {
+  grid-column: 1 / -1;
+}
+
+.card-featured {
+  flex-direction: row;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+/* Text and screenshot each declare an ideal width in rem; when the card can no
+   longer fit both, they wrap onto their own rows without needing a breakpoint. */
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0.8rem;
+  flex: 1.1 1 18rem;
+  min-width: 0;
+  justify-content: center;  /* share leftover height instead of pooling it below */
+}
+
+.card-flag {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  font-family: "Unbounded", "Noto Sans", "sans-serif";
+  font-weight: 700;
+  gap: 0.4rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+  opacity: 0.85;
+}
+
+.card-flag i {
+  font-size: 0.6rem;
+}
+
+.card-featured .card-corner-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-featured .card-title {
+  font-size: clamp(1.75rem, 3.2vw + 0.4rem, 3rem);
+  max-width: 12ch;
+  margin-bottom: 0.6rem;
+}
+
+.card-featured .card-desc {
+  max-width: 34ch;
+  font-size: 1rem;
+  flex: 0 0 auto;
+}
+
+.card-featured .card-links {
+  margin-top: 0.25rem;
+}
+
+/* Ideal width in rem rather than a rigid 46%: it grows to fill the space it has,
+   never renders below 22rem, and wraps to its own row instead of being squeezed. */
+.card-shot-wrap {
+  flex: 1 1 22rem;
+  /* Capped so a wide viewport can't stretch the shot — and the card with it */
+  max-width: min(46%, 32rem);
+  align-self: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.card-shot {
+  display: block;
+  width: 100%;
+  height: auto;          /* keeps the window's aspect ratio — never crops */
+  aspect-ratio: 802 / 635;
+  object-fit: contain;
+}
+
+/* ── Banner card (full width, icon + text) ─────── */
+.card-banner {
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.card-banner .card-body {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.card-banner .card-corner-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.card-banner .card-title {
+  font-size: clamp(1.5rem, 2.6vw + 0.4rem, 2.25rem);
+  margin-bottom: 0.9rem;
+}
+
+.card-banner .card-desc {
+  flex: 0 0 auto;
+}
+
+/* ── Accents ─────────────────────────────────── */
+.card-accent-cyan,
+.card-accent-royal {
+  border-color: transparent;
+}
+
+.card-accent-cyan {
+  background-color: #29a8e0;
+}
+
+.card-accent-cyan:hover {
+  background-color: #2492ba;
+  border-color: transparent;
+}
+
+.card-accent-royal {
+  background-color: #0d51a9;
+}
+
+.card-accent-royal:hover {
+  background-color: #113d90;
+  border-color: transparent;
+}
+
+.card-accent-cyan .card-title,
+.card-accent-cyan .card-desc,
+.card-accent-cyan .card-flag {
+  color: #10222c;
+}
+
+.card-accent-royal .card-title,
+.card-accent-royal .card-desc {
+  color: #ffffff;
+}
+
+.card-accent-cyan .card-corner-icon,
+.card-accent-royal .card-corner-icon {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Dark pills on the cyan card, light pills on the royal card */
+.card-accent-cyan .card-link-btn {
+  background: #1c1c1c;
+  border-color: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.card-accent-cyan .card-link-btn:hover {
+  background: #2c2c2c;
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+.card-accent-royal .card-link-btn {
+  background: #eef1f6;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #1c1c1c;
+}
+
+.card-accent-royal .card-link-btn:hover {
+  background: #cccccc;
+  border-color: #cccccc;
+}
+
+/* ── Coming soon placeholder ─────────────────── */
+.card-soon {
+  overflow: hidden;
+}
+
+.card-soon .card-title {
+  opacity: 0.75;
+}
+
+/* Barrier bleeds off the bottom-right corner of the card */
+.soon-barrier {
+  position: absolute;
+  right: -1.25rem;
+  bottom: -1.9rem;
+  width: 46%;
+  max-width: 13rem;
+  opacity: 0.2;
   pointer-events: none;
-}
-
-.banner-blue { background-color: #199ce3; }
-.banner-construction { background-color: #313131; }
-.banner-img  { position: relative; overflow: hidden; }
-
-.placeholder-img {
-  opacity: 0.4;
+  user-select: none;
 }
 
 /* ── Fun Stuff page ──────────────────────────── */
@@ -789,13 +940,10 @@ body:has(#main.page.active) .site-footer {
     text-align: center;
   }
 
-  .projects-main {
-    padding: 1rem;
-  }
-
-  .projects-grid {
-    padding-top: 2.5rem;
-    grid-template-columns: 1fr;
+  /* Grid columns, card wrapping and type sizes are handled fluidly above;
+     phones only need the title width cap lifted. */
+  .card-featured .card-title {
+    max-width: none;
   }
 
   .funstuff-title {
