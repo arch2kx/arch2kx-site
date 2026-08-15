@@ -912,6 +912,11 @@ body:has(#main.page.active) .site-footer {
     font-size: 1.1rem;
   }
 
+  /* Add padding to the top to prevent off-putting CSS on mobile */
+  .projects-grid {
+    padding-top: 1rem;
+  }
+
   .main-main {
     margin-top: 2rem;
     padding: 0 1.5rem;
