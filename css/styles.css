@@ -83,7 +83,7 @@ html::-webkit-scrollbar {
 *, *::before, *::after {
   box-sizing: border-box;
   transition-property: background-color, color, border-color;
-  transition-duration: 150ms;
+  transition-duration: 100ms;
   transition-timing-function: ease;
 }
 
@@ -279,7 +279,7 @@ body:has(#main.page.active) {
   display: block;
   width: 100%;
   justify-content: center;
-  transition: opacity 300ms ease;
+  transition: opacity 50ms ease;
 }
 
 .logo-light { opacity: 1; }
