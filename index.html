@@ -87,10 +87,14 @@
     <!-- About -->
     <section id="about" class="page about-main">
       <div class="about-section">
-        <h1>So, whoami?</h1>
-        <p>Hello there, My name is Arch (totally not named after the Linux distribution).<br>I make projects as a hobby and also do some 3D modeling/texturing works.</br></p>
-        <p>I also enjoy playing some Blue Archive and developing a Roblox FPS project as well.</p>
-        <img class="about-img" src="images/izuna_nin.webp" width="250" height="200" lt="Izuna">
+        <div class="about-content">
+          <h1>So, whoami?</h1>
+          <div>
+          <p>Hello there, My name is Arch (totally not named after the Linux distribution).<br>I make projects as a hobby and also do some 3D modeling/texturing works.</br></p>
+          <p>I also enjoy playing some Blue Archive and developing a Roblox FPS project as well.</p>
+          </div>
+          <img class="about-img" onclick="ninNin()" src="images/izuna_nin.webp" width="250" height="200" lt="Izuna">
+        </div>
       </div>
     </section>
 
@@ -215,7 +219,7 @@
 
         <!-- Terminal section -->
         <div class="funstuff-section">
-          <h2 class="funstuff-section-label">Terminal Emulator</h2>
+          <h2 class="funstuff-section-label funstuff-section-label--center">Terminal Emulator</h2>
           <div class="funstuff-terminal-wrap">
             <div class="terminal">
               <div id="output"></div>
@@ -233,7 +237,7 @@
           <h2 class="funstuff-section-label">Guest Book</h2>
 
           <form id="guestbook-form" class="guestbook-form">
-            <!-- Honeypot: Bots fill this, humans don't see it -->
+            <!-- Bots fill this and humans don't see it -->
             <input type="text" id="guestbook-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="guestbook-field">
@@ -277,5 +281,15 @@
       <p>&copy; 2026 arch2kx. Licensed under MIT. <br>Arona's Room background courtesy of NEXON/Yostar Games.</br></p>
     </footer>
 
+    <script>
+     const ninAudio = new Audio("sounds/izuna-nin-nin.mp3");
+     ninAudio.preload = "auto";
+     ninAudio.volume = 0.3;
+
+     function ninNin() {
+       ninAudio.currentTime = 0;
+       ninAudio.play();
+     }
+    </script>
   </body>
 </html>
