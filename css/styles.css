@@ -87,7 +87,7 @@ html::-webkit-scrollbar {
 *, *::before, *::after {
   box-sizing: border-box;
   transition-property: background-color, color, border-color;
-  transition-duration: 100ms;
+  transition-duration: 150ms;
   transition-timing-function: ease;
 }
 
