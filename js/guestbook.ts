@@ -1,29 +1,19 @@
 // Guest Book in Fun Stuff
 
-const FIREBASE_PROJECT_ID = 'arch2kx-site';
-const FIREBASE_API_KEY = 'AIzaSyAJcYTcy5GVJkXnP8jZIdcq_fioNN481ug';
+const SUPABASE_URL = 'https://dgtypqowdxsmqbygzmnz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndHlwcW93ZHhzbXFieWd6bW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzA4MjksImV4cCI6MjEwNDAwNjgyOX0.TgEaXVseuCC_rIhf4bxWyGRrnhEt9h4OcO6cmud2Bvo';
 
-const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
+const REST_BASE = `${SUPABASE_URL}/rest/v1/guestbook`;
+const REST_HEADERS = {
+  apikey: SUPABASE_ANON_KEY,
+  Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+};
 
 interface GuestbookEntry {
   name: string;
   message: string;
   created_at: string;
   tz_offset: number;
-}
-
-interface FirestoreDoc {
-  fields: {
-    name: { stringValue: string };
-    message: { stringValue: string };
-    created_at: { timestampValue: string };
-    tz_offset: { integerValue: string };
-  };
-}
-
-interface FirestoreListResponse {
-  documents?: FirestoreDoc[];
-  nextPageToken?: string;
 }
 
 const form = document.getElementById('guestbook-form') as HTMLFormElement;
@@ -106,16 +96,12 @@ function setStatus(text: string, kind: 'ok' | 'err' | ''): void {
 async function loadEntries(): Promise<void> {
   try {
     const res = await fetch(
-      `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=5&key=${FIREBASE_API_KEY}`
+      `${REST_BASE}?select=name,message,created_at,tz_offset&order=created_at.desc&limit=5`,
+      { headers: REST_HEADERS }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = (await res.json()) as FirestoreListResponse;
-    const entries: GuestbookEntry[] = (data.documents ?? []).map(doc => ({
-      name: doc.fields.name.stringValue,
-      message: doc.fields.message.stringValue,
-      created_at: doc.fields.created_at.timestampValue,
-      tz_offset: doc.fields.tz_offset ? Number(doc.fields.tz_offset.integerValue) : 0,
-    }));    renderEntries(entries);
+    const entries = (await res.json()) as GuestbookEntry[];
+    renderEntries(entries);
   } catch {
     entriesEl.innerHTML = '<p class="guestbook-error">Couldn\'t load entries. Try refreshing.</p>';
   }
@@ -153,21 +139,20 @@ form.addEventListener('submit', (e: Event): void => {
       const now = new Date().toISOString();
       const offsetMinutes = -new Date().getTimezoneOffset();
 
-      const res = await fetch(
-        `${FIRESTORE_BASE}/guestbook?key=${FIREBASE_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fields: {
-              name: { stringValue: name },
-              message: { stringValue: message },
-              created_at: { timestampValue: now },
-              tz_offset: { integerValue: String(offsetMinutes) },
-            },
-          }),
-        }
-      );
+      const res = await fetch(REST_BASE, {
+        method: 'POST',
+        headers: {
+          ...REST_HEADERS,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({
+          name,
+          message,
+          created_at: now,
+          tz_offset: offsetMinutes,
+        }),
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       prependEntry({ name, message, created_at: now, tz_offset: offsetMinutes });
@@ -187,24 +172,21 @@ form.addEventListener('submit', (e: Event): void => {
 
 async function loadArchive(): Promise<void> {
   const all: GuestbookEntry[] = [];
-  let token: string | null = null;
+  const pageSize = 200;
+  let offset = 0;
 
   try {
-    do {
-      let url = `${FIRESTORE_BASE}/guestbook?orderBy=created_at+desc&pageSize=200&key=${FIREBASE_API_KEY}`;
-      if (token !== null) url += `&pageToken=${encodeURIComponent(token)}`;
-      const res = await fetch(url);
+    for (;;) {
+      const res = await fetch(
+        `${REST_BASE}?select=name,message,created_at,tz_offset&order=created_at.desc&offset=${offset}&limit=${pageSize}`,
+        { headers: REST_HEADERS }
+      );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = (await res.json()) as FirestoreListResponse;
-      const page: GuestbookEntry[] = (data.documents ?? []).map(doc => ({
-        name: doc.fields.name.stringValue,
-        message: doc.fields.message.stringValue,
-        created_at: doc.fields.created_at.timestampValue,
-        tz_offset: doc.fields.tz_offset ? Number(doc.fields.tz_offset.integerValue) : 0,
-      }));
+      const page = (await res.json()) as GuestbookEntry[];
       all.push(...page);
-      token = data.nextPageToken ?? null;
-    } while (token !== null);
+      if (page.length < pageSize) break;
+      offset += pageSize;
+    }
 
     if (all.length === 0) {
       archiveEl.innerHTML = '<p class="guestbook-empty">No entries yet — be the first!</p>';
