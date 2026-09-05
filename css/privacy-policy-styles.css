@@ -3,28 +3,28 @@
 /* ── Variables ───────────────────────────────── */
 :root {
   color-scheme: light;
-  --bg:               #f3f4f6;
-  --surface:          #ffffff;
-  --border:           #cccccc;
-  --h3:               #878787;
-  --text:             #545454;
-  --link:             #199de3;
-  --btn-border:       #bababa;
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --border: #cccccc;
+  --h3: #878787;
+  --text: #545454;
+  --link: #199de3;
+  --btn-border: #bababa;
   --btn-border-hover: #b7b8b9;
-  --btn-hover:        #e4e5e7;
+  --btn-hover: #e4e5e7;
 }
 
 .dark {
   color-scheme: dark;
-  --bg:               #161616;
-  --surface:          #1f1f1f;
-  --border:           #515151;
-  --h3:               #a5a5a5;
-  --text:             #cccccc;
-  --link:             #199de3;
-  --btn-border:       #727272;
+  --bg: #161616;
+  --surface: #1f1f1f;
+  --border: #515151;
+  --h3: #a5a5a5;
+  --text: #cccccc;
+  --link: #199de3;
+  --btn-border: #727272;
   --btn-border-hover: #8c8c8c;
-  --btn-hover:        #323232;
+  --btn-hover: #323232;
 }
 
 /* ── Global ──────────────────────────────────── */
@@ -32,7 +32,9 @@ html {
   font-size: clamp(16px, 0.83vw, 28px);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 

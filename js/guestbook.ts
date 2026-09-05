@@ -176,7 +176,7 @@ async function loadArchive(): Promise<void> {
   let offset = 0;
 
   try {
-    for (;;) {
+    for (; ;) {
       const res = await fetch(
         `${REST_BASE}?select=name,message,created_at,tz_offset&order=created_at.desc&offset=${offset}&limit=${pageSize}`,
         { headers: REST_HEADERS }

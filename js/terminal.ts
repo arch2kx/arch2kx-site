@@ -15,36 +15,54 @@ function escapeHtml(str: string): string {
 // ── Fake Filesystem ───────────────────────────────────────────
 
 type FSFile = { type: 'file'; content: string };
-type FSDir  = { type: 'dir';  children: Record<string, FSNode> };
+type FSDir = { type: 'dir'; children: Record<string, FSNode> };
 type FSNode = FSFile | FSDir;
 
 // Options for the commands in fake FS.
-const FS: FSDir = { type: 'dir', children: {
-  home: { type: 'dir', children: {
-    arch2kx: { type: 'dir', children: {
-      'about.txt':   { type: 'file', content: 'arch2kx — dev & 3d artist.\nsee /about on the site.' },
-      Projects: { type: 'dir', children: {
-        'arch2kx-site': { type: 'dir', children: {
-          'README.md': { type: 'file', content: '# arch2kx-site\npersonal site — you\'re looking at it.' },
-        }},
-        dotfiles: { type: 'dir', children: {
-          'README.md': { type: 'file', content: '# dotfiles\nsway, waybar, emacs, zsh configs.' },
-        }},
-      }},
-      Downloads: { type: 'dir', children: {
-        'archlinux-2026.07.01-x86_64.iso': { type: 'file', content: 'gzip compressed data — why are you cat-ing an iso?' },
-      }},
-      Music: { type: 'dir', children: {
-        blue_archive_ost: { type: 'dir', children: {
-          'unwelcome_school.flac':  { type: 'file', content: '[FLAC audio — 5:32]' },
-          'usagi_flap.flac':        { type: 'file', content: '[FLAC audio — 2:06]' },
-          'constant_moderato.flac': { type: 'file', content: '[FLAC audio — 4:11]' },
-          'luminous_memory.flac':   { type: 'file', content: '[FLAC audio — 6:20]' },
-        }},
-      }},
-    }},
-  }},
-}};
+const FS: FSDir = {
+  type: 'dir', children: {
+    home: {
+      type: 'dir', children: {
+        arch2kx: {
+          type: 'dir', children: {
+            'about.txt': { type: 'file', content: 'arch2kx — dev & 3d artist.\nsee /about on the site.' },
+            Projects: {
+              type: 'dir', children: {
+                'arch2kx-site': {
+                  type: 'dir', children: {
+                    'README.md': { type: 'file', content: '# arch2kx-site\npersonal site — you\'re looking at it.' },
+                  }
+                },
+                dotfiles: {
+                  type: 'dir', children: {
+                    'README.md': { type: 'file', content: '# dotfiles\nsway, waybar, emacs, zsh configs.' },
+                  }
+                },
+              }
+            },
+            Downloads: {
+              type: 'dir', children: {
+                'archlinux-2026.07.01-x86_64.iso': { type: 'file', content: 'gzip compressed data — why are you cat-ing an iso?' },
+              }
+            },
+            Music: {
+              type: 'dir', children: {
+                blue_archive_ost: {
+                  type: 'dir', children: {
+                    'unwelcome_school.flac': { type: 'file', content: '[FLAC audio — 5:32]' },
+                    'usagi_flap.flac': { type: 'file', content: '[FLAC audio — 2:06]' },
+                    'constant_moderato.flac': { type: 'file', content: '[FLAC audio — 4:11]' },
+                    'luminous_memory.flac': { type: 'file', content: '[FLAC audio — 6:20]' },
+                  }
+                },
+              }
+            },
+          }
+        },
+      }
+    },
+  }
+};
 
 const HOME = ['home', 'arch2kx'];
 let cwd: string[] = ['home', 'arch2kx'];
@@ -73,8 +91,8 @@ function resolvePath(target: string): string[] {
 
 function displayCwd(): string {
   const joined = cwd.join('/');
-  const home   = HOME.join('/');
-  if (joined === home)               return '~';
+  const home = HOME.join('/');
+  if (joined === home) return '~';
   if (joined.startsWith(home + '/')) return '~/' + joined.slice(home.length + 1);
   return '/' + joined;
 }
@@ -134,8 +152,8 @@ function neofetchOutput(): string {
     lines.push(`<div><span class="c-arch-reg">${logoLine}</span>  ${infoLine}</div>`);
   }
 
-  const normal = ['#1c1c1c','#d94133','#1dd35f','#d3b81d','#1081d6','#5133d9','#10b3d6','#d6d6d6'];
-  const bright = ['#555753','#d94133','#1dd35f','#d3b81d','#1081d6','#5133d9','#10b3d6','#f6f6f6'];
+  const normal = ['#1c1c1c', '#d94133', '#1dd35f', '#d3b81d', '#1081d6', '#5133d9', '#10b3d6', '#d6d6d6'];
+  const bright = ['#555753', '#d94133', '#1dd35f', '#d3b81d', '#1081d6', '#5133d9', '#10b3d6', '#f6f6f6'];
   const pad = ''.padEnd(LOGO_WIDTH + 2);
   const row = (colors: string[]) => colors.map(c => `<span class="swatch" style="background:${c}"></span>`).join('');
   lines.push(`<div>${pad}${row(normal)}</div>`);
@@ -150,25 +168,25 @@ function bneofetchOutput(): string {
   const ua = navigator.userAgent;
 
   let browser = 'Unknown'; let bVer = '';
-  if (ua.includes('Firefox/'))      { browser = 'Firefox'; bVer = ua.match(/Firefox\/([\d.]+)/)?.[1]  ?? ''; }
-  else if (ua.includes('Edg/'))     { browser = 'Edge';    bVer = ua.match(/Edg\/([\d.]+)/)?.[1]      ?? ''; }
-  else if (ua.includes('Chrome/'))  { browser = 'Chrome';  bVer = ua.match(/Chrome\/([\d.]+)/)?.[1]   ?? ''; }
-  else if (ua.includes('Safari/'))  { browser = 'Safari';  bVer = ua.match(/Version\/([\d.]+)/)?.[1]  ?? ''; }
+  if (ua.includes('Firefox/')) { browser = 'Firefox'; bVer = ua.match(/Firefox\/([\d.]+)/)?.[1] ?? ''; }
+  else if (ua.includes('Edg/')) { browser = 'Edge'; bVer = ua.match(/Edg\/([\d.]+)/)?.[1] ?? ''; }
+  else if (ua.includes('Chrome/')) { browser = 'Chrome'; bVer = ua.match(/Chrome\/([\d.]+)/)?.[1] ?? ''; }
+  else if (ua.includes('Safari/')) { browser = 'Safari'; bVer = ua.match(/Version\/([\d.]+)/)?.[1] ?? ''; }
 
   let os = 'Unknown';
-  if (ua.includes('Windows NT'))    os = 'Windows';
-  else if (/iPhone|iPad/.test(ua))  os = 'iOS';
-  else if (ua.includes('Android'))  os = 'Android';
+  if (ua.includes('Windows NT')) os = 'Windows';
+  else if (/iPhone|iPad/.test(ua)) os = 'iOS';
+  else if (ua.includes('Android')) os = 'Android';
   else if (ua.includes('Mac OS X')) os = 'macOS';
-  else if (ua.includes('Linux'))    os = 'Linux';
+  else if (ua.includes('Linux')) os = 'Linux';
 
-  const nav   = navigator as Navigator & { deviceMemory?: number };
-  const mem   = nav.deviceMemory;
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  const mem = nav.deviceMemory;
   const cores = navigator.hardwareConcurrency;
-  const lang  = navigator.language;
-  const tz    = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const res   = `${window.screen.width}x${window.screen.height}`;
-  const vp    = `${window.innerWidth}x${window.innerHeight}`;
+  const lang = navigator.language;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const res = `${window.screen.width}x${window.screen.height}`;
+  const vp = `${window.innerWidth}x${window.innerHeight}`;
   const depth = `${window.screen.colorDepth}bpp`;
 
   const logo: string[] = [
@@ -218,19 +236,19 @@ let historyIndex = -1;
 type CmdFn = (args: string[]) => string;
 
 const commands: Record<string, CmdFn> = {
-  neofetch:  () => neofetchOutput(),
+  neofetch: () => neofetchOutput(),
   bneofetch: () => bneofetchOutput(),
 
   whoami: () => '<div>arch (arch2kx)</div>',
-  pwd:    () => `<div>${escapeHtml(displayCwd())}</div>`,
-  date:   () => `<div>${new Date().toString()}</div>`,
-  echo:   (args) => `<div>${escapeHtml(args.join(' '))}</div>`,
+  pwd: () => `<div>${escapeHtml(displayCwd())}</div>`,
+  date: () => `<div>${new Date().toString()}</div>`,
+  echo: (args) => `<div>${escapeHtml(args.join(' '))}</div>`,
 
   ls: (args) => {
     const showHidden = args.some(a => a.startsWith('-') && a.includes('a'));
-    const pathArg    = args.find(a => !a.startsWith('-'));
-    const target     = pathArg !== undefined ? resolvePath(pathArg) : [...cwd];
-    const node       = getNode(target);
+    const pathArg = args.find(a => !a.startsWith('-'));
+    const target = pathArg !== undefined ? resolvePath(pathArg) : [...cwd];
+    const node = getNode(target);
     if (node === null)
       return `<div><span class="c-err">ls: cannot access '${escapeHtml(pathArg ?? '')}': No such file or directory</span></div>`;
     if (node.type === 'file') {
@@ -249,10 +267,10 @@ const commands: Record<string, CmdFn> = {
   },
 
   cd: (args) => {
-    const raw    = args[0];
+    const raw = args[0];
     const target = (raw === undefined || raw === '~') ? [...HOME] : resolvePath(raw);
-    const node   = getNode(target);
-    if (node === null)       return `<div><span class="c-err">cd: no such file or directory: ${escapeHtml(raw ?? '')}</span></div>`;
+    const node = getNode(target);
+    if (node === null) return `<div><span class="c-err">cd: no such file or directory: ${escapeHtml(raw ?? '')}</span></div>`;
     if (node.type === 'file') return `<div><span class="c-err">cd: not a directory: ${escapeHtml(raw ?? '')}</span></div>`;
     cwd = target;
     return '';
@@ -262,9 +280,9 @@ const commands: Record<string, CmdFn> = {
     const raw = args[0];
     if (raw === undefined) return '<div><span class="c-err">cat: missing operand</span></div>';
     const target = resolvePath(raw);
-    const node   = getNode(target);
-    if (node === null)        return `<div><span class="c-err">cat: ${escapeHtml(raw)}: No such file or directory</span></div>`;
-    if (node.type === 'dir')  return `<div><span class="c-err">cat: ${escapeHtml(raw)}: Is a directory</span></div>`;
+    const node = getNode(target);
+    if (node === null) return `<div><span class="c-err">cat: ${escapeHtml(raw)}: No such file or directory</span></div>`;
+    if (node.type === 'dir') return `<div><span class="c-err">cat: ${escapeHtml(raw)}: Is a directory</span></div>`;
     return node.content.split('\n').map(l => `<div>${escapeHtml(l)}</div>`).join('');
   },
 
@@ -323,24 +341,24 @@ const commands: Record<string, CmdFn> = {
 
   man: (args) => {
     const pages: Record<string, string> = {
-      ls:        'ls — list directory contents\n  Usage: ls [-a] [path]',
-      cd:        'cd — change directory\n  Usage: cd [path]',
-      cat:       'cat — concatenate and print files\n  Usage: cat <file>',
-      pwd:       'pwd — print working directory',
-      echo:      'echo — print text\n  Usage: echo [text...]',
-      date:      'date — display current date and time',
-      uname:     'uname — print system info\n  Usage: uname [-a]',
-      uptime:    'uptime — show how long the system has been running',
-      ps:        'ps — list processes\n  Usage: ps [aux]',
-      df:        'df — report disk space usage',
-      free:      'free — display memory usage',
-      history:   'history — show command history',
-      neofetch:  'neofetch — display system info with ASCII art',
+      ls: 'ls — list directory contents\n  Usage: ls [-a] [path]',
+      cd: 'cd — change directory\n  Usage: cd [path]',
+      cat: 'cat — concatenate and print files\n  Usage: cat <file>',
+      pwd: 'pwd — print working directory',
+      echo: 'echo — print text\n  Usage: echo [text...]',
+      date: 'date — display current date and time',
+      uname: 'uname — print system info\n  Usage: uname [-a]',
+      uptime: 'uptime — show how long the system has been running',
+      ps: 'ps — list processes\n  Usage: ps [aux]',
+      df: 'df — report disk space usage',
+      free: 'free — display memory usage',
+      history: 'history — show command history',
+      neofetch: 'neofetch — display system info with ASCII art',
       bneofetch: 'bneofetch — display YOUR browser info with ASCII art',
-      whoami:    'whoami — print current user',
-      man:       'man — display manual pages\n  Usage: man <command>',
+      whoami: 'whoami — print current user',
+      man: 'man — display manual pages\n  Usage: man <command>',
     };
-    const cmd  = args[0];
+    const cmd = args[0];
     if (cmd === undefined) return '<div><span class="c-err">What manual page do you want?</span></div>';
     const page = pages[cmd];
     if (page === undefined) return `<div><span class="c-err">No manual entry for ${escapeHtml(cmd)}</span></div>`;
@@ -381,7 +399,7 @@ const commands: Record<string, CmdFn> = {
     return '<div><span class="c-err">git: not a git repository (this is a browser)</span></div>';
   },
 
-  exit:   () => '<div>logout — (you can\'t leave)</div>',
+  exit: () => '<div>logout — (you can\'t leave)</div>',
   sensei: () => '<div>yes? — (I play too much Blue Archive)</div>',
 
   help: () => [
@@ -422,7 +440,7 @@ function handleCommand(raw: string): void {
   }
 
   const parts = cmd.split(/\s+/);
-  const name  = parts[0];
+  const name = parts[0];
   if (name === undefined) return;
   const args = parts.slice(1);
 
@@ -440,7 +458,7 @@ function handleCommand(raw: string): void {
 input.addEventListener('keydown', (e: KeyboardEvent) => {
   if (e.key === 'Enter') {
     const value = input.value;
-    input.value  = '';
+    input.value = '';
     historyIndex = -1;
     handleCommand(value);
     return;
@@ -460,7 +478,7 @@ input.addEventListener('keydown', (e: KeyboardEvent) => {
       input.value = cmdHistory[cmdHistory.length - 1 - historyIndex] ?? '';
     } else if (historyIndex === 0) {
       historyIndex = -1;
-      input.value  = '';
+      input.value = '';
     }
   }
 });

@@ -10,32 +10,50 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 // Options for the commands in fake FS.
-const FS = { type: 'dir', children: {
-        home: { type: 'dir', children: {
-                arch2kx: { type: 'dir', children: {
+const FS = {
+    type: 'dir', children: {
+        home: {
+            type: 'dir', children: {
+                arch2kx: {
+                    type: 'dir', children: {
                         'about.txt': { type: 'file', content: 'arch2kx — dev & 3d artist.\nsee /about on the site.' },
-                        Projects: { type: 'dir', children: {
-                                'arch2kx-site': { type: 'dir', children: {
+                        Projects: {
+                            type: 'dir', children: {
+                                'arch2kx-site': {
+                                    type: 'dir', children: {
                                         'README.md': { type: 'file', content: '# arch2kx-site\npersonal site — you\'re looking at it.' },
-                                    } },
-                                dotfiles: { type: 'dir', children: {
+                                    }
+                                },
+                                dotfiles: {
+                                    type: 'dir', children: {
                                         'README.md': { type: 'file', content: '# dotfiles\nsway, waybar, emacs, zsh configs.' },
-                                    } },
-                            } },
-                        Downloads: { type: 'dir', children: {
+                                    }
+                                },
+                            }
+                        },
+                        Downloads: {
+                            type: 'dir', children: {
                                 'archlinux-2026.07.01-x86_64.iso': { type: 'file', content: 'gzip compressed data — why are you cat-ing an iso?' },
-                            } },
-                        Music: { type: 'dir', children: {
-                                blue_archive_ost: { type: 'dir', children: {
+                            }
+                        },
+                        Music: {
+                            type: 'dir', children: {
+                                blue_archive_ost: {
+                                    type: 'dir', children: {
                                         'unwelcome_school.flac': { type: 'file', content: '[FLAC audio — 5:32]' },
                                         'usagi_flap.flac': { type: 'file', content: '[FLAC audio — 2:06]' },
                                         'constant_moderato.flac': { type: 'file', content: '[FLAC audio — 4:11]' },
                                         'luminous_memory.flac': { type: 'file', content: '[FLAC audio — 6:20]' },
-                                    } },
-                            } },
-                    } },
-            } },
-    } };
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            }
+        },
+    }
+};
 const HOME = ['home', 'arch2kx'];
 let cwd = ['home', 'arch2kx'];
 function getNode(path) {

@@ -3,57 +3,75 @@
 /* ── Variables ───────────────────────────────── */
 :root {
   color-scheme: light;
-  --bg:                 #f3f4f6;
-  --surface:            #ffffff;
-  --border:             #cccccc;
-  --h1-about:           #3576b3;
-  --text:               #545454;
-  --home-text:          #cccccc;
-  --icon:               #2b2b2b;
-  --explore-btn:        #e3ffff;
-  --nav-btn:            #2b2b2b;
-  --nav-btn-hover:      #3e3e3e;
-  --nav-btn-active:     #199de3;
-  --btn-border:         #bababa;
-  --btn-border-hover:   #b7b8b9;
-  --btn-hover:          #e4e5e7;
-  --btn-hover-home:     #0f0f0f;
-  --coming-border:      #d1d5db;
-  --coming-text:        #737373;
-  --shadow-color: rgba(0, 0, 0, 0.4); 
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --border: #cccccc;
+  --h1-about: #3576b3;
+  --text: #545454;
+  --home-text: #cccccc;
+  --icon: #2b2b2b;
+  --explore-btn: #e3ffff;
+  --nav-btn: #2b2b2b;
+  --nav-btn-hover: #3e3e3e;
+  --nav-btn-active: #199de3;
+  --btn-border: #bababa;
+  --btn-border-hover: #b7b8b9;
+  --btn-hover: #e4e5e7;
+  --btn-border-hover-dark: #d2d2d2;
+  --btn-hover-dark: #f0f0f0;
+  --btn-hover-home: #0f0f0f;
+  --coming-border: #d1d5db;
+  --coming-text: #737373;
+  --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 .dark {
   color-scheme: dark;
-  --bg:                 #161616;
-  --surface:            #1f1f1f;
-  --border:             #515151;
-  --h1-about:           #2cb8e3;
-  --text:               #cccccc;
-  --home-text:          #262626;
-  --icon:               #d1d5db;
-  --explore-btn:        #d4eeee;
-  --nav-btn:            #171717;
-  --nav-btn-hover:      #353434;
-  --nav-btn-active:     #199de3;
-  --btn-border:         #727272;
-  --btn-border-hover:   #8c8c8c;
-  --btn-hover:          #323232;
-  --btn-hover-home:     #9a9b9c;
-  --coming-border:      #4b5563;
-  --coming-text:        #afafaf;
-  --shadow-color: rgba(115, 115, 115, 0.25); 
+  --bg: #161616;
+  --surface: #1f1f1f;
+  --border: #515151;
+  --h1-about: #2cb8e3;
+  --text: #cccccc;
+  --home-text: #262626;
+  --icon: #d1d5db;
+  --explore-btn: #d4eeee;
+  --nav-btn: #171717;
+  --nav-btn-hover: #353434;
+  --nav-btn-active: #199de3;
+  --btn-border: #727272;
+  --btn-border-hover: #8c8c8c;
+  --btn-border-hover-dark: #353535;
+  --btn-hover: #323232;
+  --btn-hover-dark: #191919;
+  --btn-hover-home: #9a9b9c;
+  --coming-border: #4b5563;
+  --coming-text: #afafaf;
+  --shadow-color: rgba(115, 115, 115, 0.25);
 }
 
 /* ── Page transitions ────────────────────────── */
 @keyframes page-enter {
-  from { opacity: 0; transform: translateY(2rem); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes page-exit {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-1rem); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
 }
 
 .page {
@@ -84,7 +102,9 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   transition-property: background-color, color, border-color;
   transition-duration: 150ms;
@@ -215,11 +235,21 @@ body:has(#main.page.active) .topbar {
   transition: opacity 300ms ease;
 }
 
-.dark-icon-sun  { opacity: 1; }
-.dark-icon-moon { opacity: 0; }
+.dark-icon-sun {
+  opacity: 1;
+}
 
-.dark .dark-icon-sun  { opacity: 0; }
-.dark .dark-icon-moon { opacity: 1; }
+.dark-icon-moon {
+  opacity: 0;
+}
+
+.dark .dark-icon-sun {
+  opacity: 0;
+}
+
+.dark .dark-icon-moon {
+  opacity: 1;
+}
 
 .github-link {
   display: flex;
@@ -286,11 +316,23 @@ body:has(#main.page.active) {
   transition: opacity 50ms ease;
 }
 
-.logo-light { opacity: 1; }
-.logo-dark  { position: absolute; inset: 0; opacity: 0; }
+.logo-light {
+  opacity: 1;
+}
 
-.dark .logo-light { opacity: 0; }
-.dark .logo-dark  { opacity: 1; }
+.logo-dark {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.dark .logo-light {
+  opacity: 0;
+}
+
+.dark .logo-dark {
+  opacity: 1;
+}
 
 .main-tagline {
   font-size: 1.125em;
@@ -410,8 +452,8 @@ body:has(#main.page.active) {
 }
 
 .project-card:hover {
-  border-color: var(--btn-border-hover);
-  background-color: var(--btn-hover);
+  border-color: var(--btn-border-hover-dark);
+  background-color: var(--btn-hover-dark);
 }
 
 /* Head row of a small card: title left, icon right */
@@ -527,7 +569,8 @@ body:has(#main.page.active) {
   padding-left: 0.8rem;
   flex: 1.1 1 18rem;
   min-width: 0;
-  justify-content: center;  /* share leftover height instead of pooling it below */
+  justify-content: center;
+  /* share leftover height instead of pooling it below */
 }
 
 .card-flag {
@@ -584,7 +627,8 @@ body:has(#main.page.active) {
 .card-shot {
   display: block;
   width: 100%;
-  height: auto;          /* keeps the window's aspect ratio — never crops */
+  height: auto;
+  /* keeps the window's aspect ratio — never crops */
   aspect-ratio: 802 / 635;
   object-fit: contain;
 }
@@ -854,13 +898,40 @@ body:has(#main.page.active) {
 }
 
 /* x256-style color classes */
-.c-arch { color: #1dc5ff; font-weight: 800; }
-.c-arch-reg { color: #1dc5ff; font-weight: 800; }
-.c-options { color: #37ff9a; font-weight: 500; }
-.c-val  { color: #f2f2f2; font-weight: 500; }
-.c-bold { color: #1dc5ff; font-weight: 500; }
-.c-dim  { color: #e6e6e6; font-weight: 500; }
-.c-err  { color: #ff5737; font-weight: 500; }
+.c-arch {
+  color: #1dc5ff;
+  font-weight: 800;
+}
+
+.c-arch-reg {
+  color: #1dc5ff;
+  font-weight: 800;
+}
+
+.c-options {
+  color: #37ff9a;
+  font-weight: 500;
+}
+
+.c-val {
+  color: #f2f2f2;
+  font-weight: 500;
+}
+
+.c-bold {
+  color: #1dc5ff;
+  font-weight: 500;
+}
+
+.c-dim {
+  color: #e6e6e6;
+  font-weight: 500;
+}
+
+.c-err {
+  color: #ff5737;
+  font-weight: 500;
+}
 
 .swatch {
   display: inline-block;
@@ -1080,8 +1151,13 @@ body:has(#main.page.active) .site-footer {
   min-height: 1.2em;
 }
 
-.guestbook-status-ok  { color: #1dd35f; }
-.guestbook-status-err { color: #f11f46; }
+.guestbook-status-ok {
+  color: #1dd35f;
+}
+
+.guestbook-status-err {
+  color: #f11f46;
+}
 
 .guestbook-entries {
   display: flex;
@@ -1184,4 +1260,3 @@ body:has(#main.page.active) .site-footer {
   color: var(--coming-text);
   margin: 0;
 }
-
