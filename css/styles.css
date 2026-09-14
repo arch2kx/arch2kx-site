@@ -451,11 +451,6 @@ body:has(#main.page.active) {
   transition: border-color 0.18s ease, background-color 0.18s ease;
 }
 
-.project-card:hover {
-  border-color: var(--btn-border-hover-dark);
-  background-color: var(--btn-hover-dark);
-}
-
 /* Head row of a small card: title left, icon right */
 .card-head {
   display: flex;
@@ -671,18 +666,8 @@ body:has(#main.page.active) {
   background-color: #29a8e0;
 }
 
-.card-accent-cyan:hover {
-  background-color: #2492ba;
-  border-color: transparent;
-}
-
 .card-accent-royal {
   background-color: #0d51a9;
-}
-
-.card-accent-royal:hover {
-  background-color: #113d90;
-  border-color: transparent;
 }
 
 .card-accent-cyan .card-title,
@@ -710,8 +695,8 @@ body:has(#main.page.active) {
 }
 
 .card-accent-cyan .card-link-btn:hover {
-  background: #2c2c2c;
-  border-color: rgba(0, 0, 0, 0.5);
+  background: #313131;
+  border-color: rgba(49, 49, 49, 0.5);
 }
 
 .card-accent-royal .card-link-btn {
