@@ -386,21 +386,37 @@ body:has(#main.page.active) {
 }
 
 .about-section .about-content {
+  width: 100%;
   max-width: 600px;
+  min-width: 0;
   text-align: left;
 }
 
 .about-content h1 {
   font-family: 'Unbounded', 'Noto Sans', sans-serif;
   color: var(--h1-about);
-  font-size: 5rem;
+  font-size: clamp(2.5rem, 11vw, 5rem);
+  overflow-wrap: break-word;
 }
 
 .about-main {
   padding: 2rem 1.5rem;
 }
 
+@media (max-width: 640px) {
+  .about-section {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .about-main {
+    padding: 1.5rem 1rem;
+  }
+}
+
 .about-img {
+  max-width: 100%;
+  height: auto;
   margin-top: 20px;
   filter: brightness(95%);
   border-radius: 0.5rem;
@@ -745,7 +761,7 @@ body:has(#main.page.active) {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 4.5rem;
 }
 
 .funstuff-header {
@@ -776,7 +792,7 @@ body:has(#main.page.active) {
   font-family: "Bitcount Single", system-ui;
   font-size: 2rem;
   font-weight: 400;
-  padding-bottom: 8px;
+  padding-bottom: 1rem;
   color: var(--coming-text);
   letter-spacing: 0.05em;
   margin: 0;
