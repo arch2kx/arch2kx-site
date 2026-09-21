@@ -1,5 +1,5 @@
 # Arch's Website
-Personal website for arch2kx where I showcase my talentsof doing web design I guess.
+Personal website for arch2kx where I showcase my talents of doing web design I guess.
 
 ## License
 MIT\
