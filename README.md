@@ -2,7 +2,6 @@
 Personal website for arch2kx where I showcase my talents of doing web design I guess.
 
 ## License
-MIT\
 See `LICENSE` for details.
 
 ## Credits
