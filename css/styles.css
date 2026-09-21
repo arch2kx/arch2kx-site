@@ -96,6 +96,7 @@ html {
   font-size: clamp(16px, 0.83vw, 28px);
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overflow-x: hidden;
 }
 
 html::-webkit-scrollbar {
@@ -114,6 +115,7 @@ html::-webkit-scrollbar {
 body {
   margin: 0;
   padding-top: 4.5rem;
+  overflow-x: hidden;
   font-family: 'Noto Sans', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg);
   color: var(--text);
@@ -393,7 +395,8 @@ body:has(#main.page.active) {
 .about-content h1 {
   font-family: 'Unbounded', 'Noto Sans', sans-serif;
   color: var(--h1-about);
-  font-size: 5rem;
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  overflow-wrap: break-word;
 }
 
 .about-main {
@@ -449,11 +452,6 @@ body:has(#main.page.active) {
   padding: 1.25rem;
   min-height: 9.5rem;
   transition: border-color 0.18s ease, background-color 0.18s ease;
-}
-
-.project-card:hover {
-  border-color: var(--btn-border-hover-dark);
-  background-color: var(--btn-hover-dark);
 }
 
 /* Head row of a small card: title left, icon right */
@@ -671,18 +669,8 @@ body:has(#main.page.active) {
   background-color: #29a8e0;
 }
 
-.card-accent-cyan:hover {
-  background-color: #2492ba;
-  border-color: transparent;
-}
-
 .card-accent-royal {
   background-color: #0d51a9;
-}
-
-.card-accent-royal:hover {
-  background-color: #113d90;
-  border-color: transparent;
 }
 
 .card-accent-cyan .card-title,
@@ -770,7 +758,7 @@ body:has(#main.page.active) {
 
 .funstuff-title {
   font-family: 'Unbounded', 'Noto Sans', sans-serif;
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 0.4rem;
 }
