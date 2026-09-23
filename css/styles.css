@@ -112,7 +112,24 @@ html::-webkit-scrollbar {
   transition-timing-function: ease;
 }
 
+html.theme-fading *,
+html.theme-fading *::before,
+html.theme-fading *::after {
+  transition-property: background-color, color, border-color, outline-color, box-shadow, fill, stroke, text-decoration-color !important;
+  transition-duration: 100ms !important;
+  transition-timing-function: ease !important;
+  transition-delay: 0s !important;
+}
+
+html.theme-fading body::before,
+html.theme-fading body::after,
+html.theme-fading .main-logo {
+  transition-property: opacity !important;
+}
+
 body {
+  position: relative;
+  isolation: isolate;
   margin: 0;
   padding-top: 4.5rem;
   overflow-x: hidden;
@@ -275,18 +292,40 @@ body:has(#main.page.active) .topbar {
 }
 
 /* ── Main page ──────────────────────────────── */
-body:has(#main.page.active) {
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 55%, transparent)),
-    url('../images/BG_AronaRoom.jpg');
+body::before,
+body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-size: cover;
   background-position: center;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.dark body:has(#main.page.active) {
+body::before {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--bg) 90%, transparent), color-mix(in srgb, var(--bg) 55%, transparent)),
+    linear-gradient(color-mix(in srgb, #f3f4f6 40%, transparent), color-mix(in srgb, #f3f4f6 55%, transparent)),
+    url('../images/BG_AronaRoom.jpg');
+}
+
+body::after {
+  background-image:
+    linear-gradient(color-mix(in srgb, #161616 90%, transparent), color-mix(in srgb, #161616 55%, transparent)),
     url('../images/BG_AronaRoom_Night.jpg');
+}
+
+body:has(#main.page.active)::before {
+  opacity: 1;
+}
+
+.dark body:has(#main.page.active)::before {
+  opacity: 0;
+}
+
+.dark body:has(#main.page.active)::after {
+  opacity: 1;
 }
 
 .main-main {

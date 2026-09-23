@@ -29,10 +29,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   });
 
+  let themeFadeTimer: number | undefined;
+
   darkToggle?.addEventListener('click', () => {
     const html = document.documentElement;
 
+    html.classList.add('theme-fading');
+    void html.offsetWidth;
     html.classList.toggle('dark');
+
+    window.clearTimeout(themeFadeTimer);
+    themeFadeTimer = window.setTimeout(() => {
+      html.classList.remove('theme-fading');
+    }, 100);
 
     localStorage.setItem(
       'theme',
