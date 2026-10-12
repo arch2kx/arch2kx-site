@@ -731,7 +731,7 @@ body:has(#main.page.active)::before {
 }
 
 .card-accent-featured {
-  background-color: #29b6f6;
+  background-color: #199de3;
 }
 
 .card-accent-royal {
