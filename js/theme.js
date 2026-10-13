@@ -4,6 +4,13 @@ document.documentElement.style.removeProperty('background-color');
 document.documentElement.style.removeProperty('color');
 document.documentElement.style.removeProperty('color-scheme');
 const DEFAULT_PAGE = 'main';
+const PAGE_TITLES = {
+    main: 'arch2k2x',
+    about: 'About · arch2k2x',
+    projects: 'Projects · arch2k2x',
+    'fun-stuff': 'Fun Stuff · arch2k2x',
+    guestbook: 'Guest Book · arch2k2x',
+};
 // Prevent browser from auto-restoring scroll position
 if ('scrollRestoration' in window.history) {
     window.history.scrollRestoration = 'manual';
@@ -14,10 +21,6 @@ window.addEventListener('load', () => {
 });
 document.addEventListener('DOMContentLoaded', () => {
     const darkToggle = document.getElementById('dark-toggle');
-    const fswindow = document.getElementById('funStuffScrollTop');
-    fswindow?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    });
     let themeFadeTimer;
     darkToggle?.addEventListener('click', () => {
         const html = document.documentElement;
@@ -31,7 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
     });
     // Animation or none for page transitions
-    function showPage(pageId, skipAnim = false) {
+    function focusPageHeading(page) {
+        const heading = page.querySelector('h1') ?? page;
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+    }
+    function showPage(pageId, skipAnim = false, moveFocus = false) {
         const next = document.getElementById(pageId);
         if (!next)
             return;
@@ -43,35 +51,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         void next.offsetWidth;
         next.classList.add('active');
-        const button = document.getElementById("funStuffScrollTop");
-        const scrollToTop = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "instant"
-            });
-        };
-        if (button) {
-            button.addEventListener("click", scrollToTop);
-        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.title = PAGE_TITLES[pageId] ?? PAGE_TITLES[DEFAULT_PAGE];
         document.querySelectorAll('.nav-btn').forEach(btn => {
-            const btnPage = btn.dataset.page;
-            btn.classList.toggle('active', btnPage === pageId);
+            const isCurrent = btn.dataset.page === pageId;
+            btn.classList.toggle('active', isCurrent);
+            if (isCurrent) {
+                btn.setAttribute('aria-current', 'page');
+            }
+            else {
+                btn.removeAttribute('aria-current');
+            }
         });
+        if (moveFocus)
+            focusPageHeading(next);
     }
+    document.querySelector('.skip-link')?.addEventListener('click', (e) => {
+        const active = document.querySelector('.page.active');
+        if (!active)
+            return;
+        e.preventDefault();
+        focusPageHeading(active);
+    });
     const pageLinks = document.querySelectorAll('[data-page]');
     pageLinks.forEach(el => {
         el.addEventListener('click', (e) => {
+            if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+                return;
             e.preventDefault();
             const pageId = el.dataset.page;
             if (!pageId)
                 return;
             history.pushState({ page: pageId }, '', pageId === 'main' ? '/' : '/' + pageId);
-            showPage(pageId, el.classList.contains('nav-btn'));
+            showPage(pageId, el.classList.contains('nav-btn'), true);
         });
     });
     window.addEventListener('popstate', (e) => {
         const state = e.state;
-        showPage(state?.page || DEFAULT_PAGE, true);
+        showPage(state?.page || DEFAULT_PAGE, true, true);
     });
     const redirect = sessionStorage.getItem('spa-redirect');
     if (redirect) {

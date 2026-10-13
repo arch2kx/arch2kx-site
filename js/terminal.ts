@@ -2,7 +2,6 @@
 
 const input = document.getElementById('commandInput') as HTMLInputElement;
 const output = document.getElementById('output') as HTMLElement;
-const funStuff = document.getElementById('fun-stuff') as HTMLElement;
 
 function escapeHtml(str: string): string {
   return str
@@ -486,10 +485,5 @@ input.addEventListener('keydown', (e: KeyboardEvent) => {
 document.querySelector('.terminal')?.addEventListener('click', () => {
   input.focus();
 });
-
-const observer = new MutationObserver(() => {
-  if (funStuff.classList.contains('active')) input.focus();
-});
-observer.observe(funStuff, { attributes: true, attributeFilter: ['class'] });
 
 appendOutput(neofetchOutput());

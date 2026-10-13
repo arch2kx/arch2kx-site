@@ -12,7 +12,7 @@
   <link rel="manifest" href="favicon_io/site.webmanifest">
 
   <!-- Since Firefox likes to do this sort of thing I have to add a hack to this... -->
-  <script>document.documentElement.classList.add('preload'); if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; document.documentElement.style.backgroundColor = '#161616'; document.documentElement.style.color = '#cccccc'; } else { document.documentElement.style.colorScheme = 'light'; document.documentElement.style.backgroundColor = '#f3f4f6'; document.documentElement.style.color = '#545454'; }</script>
+  <script>document.documentElement.classList.add('preload'); if ((localStorage.getItem('theme') ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; document.documentElement.style.backgroundColor = '#161616'; document.documentElement.style.color = '#cccccc'; } else { document.documentElement.style.colorScheme = 'light'; document.documentElement.style.backgroundColor = '#f3f4f6'; document.documentElement.style.color = '#545454'; }</script>
 
   <!-- Preload images -->
   <link rel="preload" as="image" type="image/webp" href="images/arch_giko_hoshi_new.webp">
@@ -38,6 +38,7 @@
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap">
   </noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap"
     onload="this.onload=null;this.rel='stylesheet'">
@@ -69,44 +70,54 @@
 
 <body>
 
+  <a href="#content" class="skip-link">Skip to content</a>
+
   <!-- Topbar -->
   <nav class="topbar">
-    <a href="#" class="topbar-home" data-page="main" title="Home">
-      <div id="home-icon" style="background-image: url('images/arch_giko_hoshi_new.webp');" aria-label="Home"></div>
+    <a href="/" class="topbar-home" data-page="main">
+      <div id="home-icon" style="background-image: url('images/arch_giko_hoshi_new.webp');"></div>
+      <span class="topbar-title">arch2k2x</span>
     </a>
     <div class="topbar-nav">
-      <a class="nav-btn" data-page="about">About</a>
-      <a class="nav-btn" data-page="projects">Projects</a>
-      <a class="nav-btn" id="funStuffScrollTop" data-page="fun-stuff">Fun Stuff</a>
+      <a href="/about" class="nav-btn" data-page="about">About</a>
+      <a href="/projects" class="nav-btn" data-page="projects">Projects</a>
+      <a href="/fun-stuff" class="nav-btn" id="funStuffScrollTop" data-page="fun-stuff">Fun Stuff</a>
     </div>
     <div class="topbar-actions">
-      <button id="dark-toggle" title="Light/Dark Mode Toggle">
-        <i class="fa-solid fa-sun dark-icon-sun"></i>
-        <i class="fa-solid fa-moon dark-icon-moon"></i>
+      <button id="dark-toggle" class="action-link">
+        <span class="action-icon">
+          <i class="fa-solid fa-sun dark-icon-sun" aria-hidden="true"></i>
+          <i class="fa-solid fa-moon dark-icon-moon" aria-hidden="true"></i>
+        </span>
+        <span class="action-label"><span class="sr-only">Switch to </span><span class="label-light">Light</span><span class="label-dark">Dark</span><span class="sr-only"> theme</span></span>
       </button>
-      <a href="https://ko-fi.com/archkun" target="_blank" rel="noopener" class="kofi-link" title="Ko-fi">
-        <i class="fa-brands fa-ko-fi"></i>
-      </a>
-      <a href="https://github.com/arch2kx" target="_blank" rel="noopener" class="github-link" title="GitHub">
-        <i class="fa-brands fa-github"></i>
-      </a>
-      <a href="/privacy/" class="privacy-link" title="Privacy Policy">
-        <i class="fa-solid fa-shield-halved"></i>
+      <a href="https://ko-fi.com/archkun" target="_blank" rel="noopener" class="action-link kofi-link">
+        <span class="action-icon"><i class="fa-brands fa-ko-fi" aria-hidden="true"></i></span>
+        <span class="action-label">Ko-fi</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a href="https://github.com/arch2kx" target="_blank" rel="noopener" class="action-link github-link">
+        <span class="action-icon"><i class="fa-brands fa-github" aria-hidden="true"></i></span>
+        <span class="action-label">GitHub</span>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a href="/privacy/" class="action-link privacy-link">
+        <span class="action-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+        <span class="action-label">Privacy</span>
       </a>
     </div>
   </nav>
 
+  <main id="content">
+
   <!-- Home -->
   <section id="main" class="page main-main no-animate">
-    <div class="main-logo-wrap">
-      <img src="images/arch_kun_ba-logo_light.webp" alt="arch2kx logo" class="main-logo logo-light">
-      <img src="images/arch_kun_ba-logo_dark.webp" alt="arch2kx logo" class="main-logo logo-dark">
-    </div>
+    <h1 class="main-logo-wrap">
+      <img src="images/arch_kun_ba-logo_light.webp" alt="arch kun" class="main-logo logo-light">
+      <img src="images/arch_kun_ba-logo_dark.webp" alt="" class="main-logo logo-dark">
+    </h1>
     <p class="main-tagline">Hello, I like to code Blue Archive-themed projects.</p>
     <div class="main-wrap">
-      <a class="explore-btn" data-page="about"><span>Who am I? ⇀</span></a>
-      <a class="explore-btn" data-page="projects"><span>View My Projects ⇀</span></a>
-    </div>
+      <a href="/about" class="explore-btn" data-page="about"><span>Who am I? ⇀</span></a>
+      <a href="/projects" class="explore-btn" data-page="projects"><span>View My Projects ⇀</span></a>
     </div>
   </section>
 
@@ -120,13 +131,16 @@
             hobby and also do some 3D modeling/texturing works.</br></p>
           <p>I also enjoy playing some Blue Archive and developing a Roblox FPS project as well.</p>
         </div>
-        <img class="about-img" onclick="ninNin()" src="images/izuna_nin.webp" width="250" height="200" lt="Izuna">
+        <button type="button" class="about-img-btn" onclick="ninNin()" aria-label="Izuna (plays a sound)">
+          <img class="about-img" src="images/izuna_nin.webp" width="250" height="200" alt="">
+        </button>
       </div>
     </div>
   </section>
 
   <!-- Projects -->
   <section id="projects" class="page projects-main">
+    <h1 class="sr-only">Projects</h1>
     <div class="projects-grid">
 
       <!-- Featured -->
@@ -140,11 +154,11 @@
             <a href="https://arch2kx.github.io/ba-merch-guesser/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/ba-merch-guesser/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
         <div class="card-shot-wrap">
@@ -162,15 +176,15 @@
             <a href="https://chromewebstore.google.com/detail/ba-pop-up-interrupter/cfhhacjkgodmapofbcgihopacekcehlp?authuser=1&hl=en"
               class="card-link-btn" target="_blank" rel="noopener">
               <img src="images/chrome-icon.webp" alt=""> Chrome
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://addons.mozilla.org/en-US/firefox/addon/ba-pop-up-interrupter/" class="card-link-btn"
               target="_blank" rel="noopener">
               <img src="images/firefox-icon.webp" alt=""> Firefox
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/BA-Popup-Interrupter" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
       </div>
@@ -184,11 +198,11 @@
           <p class="card-desc">Get the Trinity-loving princess to fight against Gehenna students!</p>
           <div class="card-links">
             <a href="https://arch-kun.itch.io/etp-raylib" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">itch.io</a>
+              rel="noopener noreferrer">itch.io<span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/ETPRaylib/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
       </div>
@@ -204,11 +218,11 @@
             <a href="https://arch2kx.github.io/aronasay/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/aronasay/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
       </div>
@@ -224,11 +238,11 @@
             <a href="https://arch2kx.github.io/archs-ba-student-quiz/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/archs-ba-student-quiz/" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
       </div>
@@ -244,15 +258,15 @@
             <a href="https://chromewebstore.google.com/detail/seiasinger-fork/aaaimdncfahhjnmfcgcfkahemmaepnha"
               class="card-link-btn" target="_blank" rel="noopener">
               <img src="images/chrome-icon.webp" alt=""> Chrome
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://addons.mozilla.org/en-US/firefox/addon/seiasinger-fork/" class="card-link-btn"
               target="_blank" rel="noopener">
               <img src="images/firefox-icon.webp" alt=""> Firefox
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/SeiaSingerFork" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
       </div>
@@ -268,15 +282,15 @@
             <a href="https://chromewebstore.google.com/detail/sechify-typescript/cbhcngldimloilgbhaikkndnjogdjdap"
               class="card-link-btn" target="_blank" rel="noopener">
               <img src="images/chrome-icon.webp" alt=""> Chrome
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://addons.mozilla.org/en-US/firefox/addon/sechify-typescript/" class="card-link-btn"
               target="_blank" rel="noopener">
               <img src="images/firefox-icon.webp" alt=""> Firefox
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
             <a href="https://github.com/arch2kx/SechifyTS" class="card-link-btn" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+            <span class="sr-only"> (opens in new tab)</span></a>
           </div>
         </div>
       </div>
@@ -311,14 +325,16 @@
           <input type="text" id="guestbook-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
           <div class="guestbook-field">
+            <label for="guestbook-name" class="sr-only">Your name</label>
             <input type="text" id="guestbook-name" placeholder="Your name" maxlength="50" required autocomplete="off"
-              spellcheck="false">
+              spellcheck="false" aria-describedby="guestbook-name-count">
             <span class="guestbook-count" id="guestbook-name-count">0 / 50</span>
           </div>
 
           <div class="guestbook-field">
+            <label for="guestbook-message" class="sr-only">Message</label>
             <textarea id="guestbook-message" placeholder="Leave a message..." maxlength="280" required
-              spellcheck="true"></textarea>
+              spellcheck="true" aria-describedby="guestbook-msg-count"></textarea>
             <span class="guestbook-count" id="guestbook-msg-count">0 / 280</span>
           </div>
 
@@ -337,10 +353,10 @@
         <h2 class="funstuff-section-label funstuff-section-label--center">Terminal Emulator</h2>
         <div class="funstuff-terminal-wrap">
           <div class="terminal">
-            <div id="output"></div>
+            <div id="output" role="log" aria-label="Terminal output"></div>
             <div class="input-line">
               <span class="c-val">%</span>
-              <input type="text" id="commandInput" autocomplete="off" spellcheck="false">
+              <input type="text" id="commandInput" autocomplete="off" spellcheck="false" aria-label="Terminal command">
             </div>
           </div>
         </div>
@@ -363,6 +379,8 @@
       </div>
     </div>
   </section>
+
+  </main>
 
   <footer class="site-footer">
     <p>&copy; 2026 arch2kx. Licensed under MIT. <br>Arona's Room background courtesy of NEXON/Yostar Games.</br></p>

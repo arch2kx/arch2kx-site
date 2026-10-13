@@ -1,7 +1,6 @@
 // Terminal in Fun Stuff
 const input = document.getElementById('commandInput');
 const output = document.getElementById('output');
-const funStuff = document.getElementById('fun-stuff');
 function escapeHtml(str) {
     return str
         .replace(/&/g, '&amp;')
@@ -461,11 +460,6 @@ input.addEventListener('keydown', (e) => {
 document.querySelector('.terminal')?.addEventListener('click', () => {
     input.focus();
 });
-const observer = new MutationObserver(() => {
-    if (funStuff.classList.contains('active'))
-        input.focus();
-});
-observer.observe(funStuff, { attributes: true, attributeFilter: ['class'] });
 appendOutput(neofetchOutput());
 export {};
 //# sourceMappingURL=terminal.js.map
