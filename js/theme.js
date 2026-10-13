@@ -22,11 +22,17 @@ window.addEventListener('load', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const darkToggle = document.getElementById('dark-toggle');
     let themeFadeTimer;
+    function updateToggleLabel() {
+        const isDark = document.documentElement.classList.contains('dark');
+        darkToggle?.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    updateToggleLabel();
     darkToggle?.addEventListener('click', () => {
         const html = document.documentElement;
         html.classList.add('theme-fading');
         void html.offsetWidth;
         html.classList.toggle('dark');
+        updateToggleLabel();
         window.clearTimeout(themeFadeTimer);
         themeFadeTimer = window.setTimeout(() => {
             html.classList.remove('theme-fading');
