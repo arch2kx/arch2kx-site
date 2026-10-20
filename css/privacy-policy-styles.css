@@ -1,12 +1,13 @@
 /* Privacy Policy Styling */
 
-/* ── Variables ───────────────────────────────── */
+/* ------ Variables ------ */
 :root {
   color-scheme: light;
+
   --bg: #f3f4f6;
-  --surface: #ffffff;
-  --border: #cccccc;
-  --h3: #878787;
+  --surface: #fff;
+  --border: #ccc;
+  --h2: #878787;
   --text: #545454;
   --link: #199de3;
   --btn-border: #bababa;
@@ -16,18 +17,19 @@
 
 .dark {
   color-scheme: dark;
+
   --bg: #161616;
   --surface: #1f1f1f;
   --border: #515151;
-  --h3: #a5a5a5;
-  --text: #cccccc;
+  --h2: #a5a5a5;
+  --text: #ccc;
   --link: #199de3;
   --btn-border: #727272;
   --btn-border-hover: #8c8c8c;
   --btn-hover: #323232;
 }
 
-/* ── Global ──────────────────────────────────── */
+/* ------ Global ------ */
 html {
   font-size: clamp(16px, 0.83vw, 28px);
 }
@@ -55,7 +57,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* ── Policy page ─────────────────────────────── */
+/* ------ Policy page ------ */
 .policy-main {
   max-width: 40rem;
   margin: 0 auto;
@@ -90,7 +92,7 @@ a:hover {
 .policy-card {
   background-color: var(--surface);
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.09), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 9%), 0 1px 3px rgb(0 0 0 / 8%);
   padding: 2.5rem;
 }
 
@@ -99,10 +101,10 @@ a:hover {
   margin: 0 0 0.25rem;
 }
 
-.policy-card h3 {
+.policy-card h2 {
   font-size: 1rem;
   font-weight: 400;
-  color: var(--h3);
+  color: var(--h2);
   margin: 0 0 1.5rem;
 }
 
@@ -129,8 +131,8 @@ a:hover {
   gap: 0.75rem;
 }
 
-/* ── Mobile ──────────────────────────────────── */
-@media (max-width: 640px) {
+/* ------ Mobile ------ */
+@media (width <= 640px) {
   .policy-main {
     padding: 2.5rem 1.25rem;
   }
