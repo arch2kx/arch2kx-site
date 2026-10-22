@@ -2,7 +2,7 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 const HCAPTCHA_SECRET = Deno.env.get('HCAPTCHA_SECRET') ?? '';
 const HCAPTCHA_SITEKEY = Deno.env.get('HCAPTCHA_SITEKEY') ?? '';
-const ALLOWED_ORIGINS = (Deno.env.get('ALLOWED_ORIGINS') ?? 'https://arch2kx.github.io')
+const ALLOWED_ORIGINS = (Deno.env.get('ALLOWED_ORIGINS') ?? 'https://arch2kx.pages.dev')
   .split(',')
   .map(o => o.trim())
   .filter(o => o !== '');

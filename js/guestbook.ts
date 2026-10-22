@@ -3,7 +3,7 @@
 const SUPABASE_URL = 'https://dgtypqowdxsmqbygzmnz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndHlwcW93ZHhzbXFieWd6bW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzA4MjksImV4cCI6MjEwNDAwNjgyOX0.TgEaXVseuCC_rIhf4bxWyGRrnhEt9h4OcO6cmud2Bvo';
 
-const HCAPTCHA_SITEKEY = '10000000-ffff-ffff-ffff-000000000001';
+const HCAPTCHA_SITEKEY = '5722ae92-a69a-44a0-9130-d47eac60fcf6';
 
 const REST_BASE = `${SUPABASE_URL}/rest/v1/guestbook`;
 const SIGN_URL = `${SUPABASE_URL}/functions/v1/guestbook-sign`;
