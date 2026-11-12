@@ -20,9 +20,11 @@ jobs:
       - name: Check project status
         id: status
         run: |
+          set -o pipefail
           status=$(curl -fsS "$MGMT_API/$PROJECT_REF" \
             -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" | jq -r '.status')
           echo "Project status: $status"
+          test -n "$status" -a "$status" != null
           echo "status=$status" >> "$GITHUB_OUTPUT"
 
       - name: Restore if paused
