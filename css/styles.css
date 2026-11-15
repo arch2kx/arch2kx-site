@@ -379,6 +379,10 @@ body:has(#main.page.active) .topbar {
   font-size: 1.25rem;
 }
 
+.discord-link .action-icon {
+  font-size: 1.2rem;
+}
+
 .dark-icon-sun,
 .dark-icon-moon {
   position: absolute;

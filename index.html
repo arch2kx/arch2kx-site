@@ -1,301 +1,576 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>arch2k2x</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>arch2k2x</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon_io/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon_io/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon_io/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon_io/site.webmanifest" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
-  <link rel="manifest" href="favicon_io/site.webmanifest">
+    <!-- Since Firefox likes to do this sort of thing I have to add a hack to this... -->
+    <script>
+      document.documentElement.classList.add("preload");
+      if (
+        (localStorage.getItem("theme") ??
+          (matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light")) === "dark"
+      ) {
+        document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = "dark";
+        document.documentElement.style.backgroundColor = "#161616";
+        document.documentElement.style.color = "#cccccc";
+      } else {
+        document.documentElement.style.colorScheme = "light";
+        document.documentElement.style.backgroundColor = "#f3f4f6";
+        document.documentElement.style.color = "#545454";
+      }
+    </script>
 
-  <!-- Since Firefox likes to do this sort of thing I have to add a hack to this... -->
-  <script>document.documentElement.classList.add('preload'); if ((localStorage.getItem('theme') ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark') { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; document.documentElement.style.backgroundColor = '#161616'; document.documentElement.style.color = '#cccccc'; } else { document.documentElement.style.colorScheme = 'light'; document.documentElement.style.backgroundColor = '#f3f4f6'; document.documentElement.style.color = '#545454'; }</script>
+    <!-- Preload images -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/arch_giko_hoshi_new.webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/arch2k2x_ba-style_light.webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/arch2k2x_ba-style_dark.webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/izuna_nin.webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/chrome-icon.webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="images/firefox-icon.webp"
+    />
 
-  <!-- Preload images -->
-  <link rel="preload" as="image" type="image/webp" href="images/arch_giko_hoshi_new.webp">
-  <link rel="preload" as="image" type="image/webp" href="images/arch2k2x_ba-style_light.webp">
-  <link rel="preload" as="image" type="image/webp" href="images/arch2k2x_ba-style_dark.webp">
-  <link rel="preload" as="image" type="image/webp" href="images/izuna_nin.webp">
-  <link rel="preload" as="image" type="image/webp" href="images/chrome-icon.webp">
-  <link rel="preload" as="image" type="image/webp" href="images/firefox-icon.webp">
+    <link rel="stylesheet" href="css/styles.css" />
 
-  <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"
+      />
+    </noscript>
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"
+      />
+    </noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap"
+      />
+    </noscript>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap">
-  </noscript>
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap">
-  </noscript>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400..900&display=swap">
-  </noscript>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    />
+    <!-- Paint background in-case of rapid refresh on Chrome/Firefox  -->
+    <style>
+      :root {
+        --bg: #f3f4f6;
+      }
 
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css">
-  <!-- Paint background in-case of rapid refresh on Chrome/Firefox  -->
-  <style>
-    :root {
-      --bg: #f3f4f6
-    }
+      .dark {
+        --bg: #161616;
+      }
 
-    .dark {
-      --bg: #161616
-    }
+      html,
+      body {
+        background-color: var(--bg);
+      }
+    </style>
+    <script type="module" src="js/theme.js"></script>
+    <script type="module" src="js/terminal.js"></script>
+    <script type="module" src="js/guestbook.js"></script>
+  </head>
 
-    html,
-    body {
-      background-color: var(--bg)
-    }
-  </style>
-  <script type="module" src="js/theme.js"></script>
-  <script type="module" src="js/terminal.js"></script>
-  <script type="module" src="js/guestbook.js"></script>
-</head>
+  <body>
+    <a href="#content" class="skip-link">Skip to content</a>
 
-<body>
-
-  <a href="#content" class="skip-link">Skip to content</a>
-
-  <!-- Topbar -->
-  <nav class="topbar">
-    <a href="/" class="topbar-home" data-page="main">
-      <div id="home-icon"></div>
-      <span class="topbar-title">arch2k2x</span>
-    </a>
-    <div class="topbar-nav">
-      <a href="/about" class="nav-btn" data-page="about">About</a>
-      <a href="/projects" class="nav-btn" data-page="projects">Projects</a>
-      <a href="/fun-stuff" class="nav-btn" id="funStuffScrollTop" data-page="fun-stuff">Fun Stuff</a>
-    </div>
-    <div class="topbar-actions">
-      <button type="button" id="dark-toggle" class="action-link">
-        <span class="action-icon">
-          <i class="fa-solid fa-sun dark-icon-sun" aria-hidden="true"></i>
-          <i class="fa-solid fa-moon dark-icon-moon" aria-hidden="true"></i>
-        </span>
-        <span class="action-label"><span class="label-light">Light</span><span class="label-dark">Dark</span></span>
-      </button>
-      <a href="https://ko-fi.com/archkun" target="_blank" rel="noopener" class="action-link kofi-link">
-        <span class="action-icon"><i class="fa-brands fa-ko-fi" aria-hidden="true"></i></span>
-        <span class="action-label">Ko-fi</span>
+    <!-- Topbar -->
+    <nav class="topbar">
+      <a href="/" class="topbar-home" data-page="main">
+        <div id="home-icon"></div>
+        <span class="topbar-title">arch2k2x</span>
       </a>
-      <a href="https://github.com/arch2kx" target="_blank" rel="noopener" class="action-link github-link">
-        <span class="action-icon"><i class="fa-brands fa-github" aria-hidden="true"></i></span>
-        <span class="action-label">GitHub</span>
-      </a>
-      <a href="/privacy/" class="action-link privacy-link">
-        <span class="action-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
-        <span class="action-label">Privacy</span>
-      </a>
-    </div>
-  </nav>
-
-  <main id="content">
-
-  <!-- Home -->
-  <section id="main" class="page main-main no-animate">
-    <h1 class="main-logo-wrap">
-      <img src="images/arch_kun_ba-logo_light.webp" alt="arch kun" class="main-logo logo-light">
-      <img src="images/arch_kun_ba-logo_dark.webp" alt="" class="main-logo logo-dark">
-    </h1>
-    <p class="main-tagline">Hello, I like to code Blue Archive-themed projects.</p>
-    <div class="main-wrap">
-      <a href="/about" class="explore-btn" data-page="about"><span>Who am I? ⇀</span></a>
-      <a href="/projects" class="explore-btn" data-page="projects"><span>View My Projects ⇀</span></a>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="page about-main">
-    <div class="about-section">
-      <div class="about-content">
-        <h1>So, whoami?</h1>
-        <div>
-          <p>Hello there, My name is Arch (totally not named after the Linux distribution).<br>I make projects as a
-            hobby and also do some 3D modeling/texturing works.</p>
-          <p>I also enjoy playing some Blue Archive and developing a Roblox FPS project as well.</p>
-        </div>
-        <button type="button" class="about-img-btn" onclick="ninNin()" aria-label="Izuna (plays a sound)">
-          <img class="about-img" src="images/izuna_nin.webp" width="250" height="200" alt="">
+      <div class="topbar-nav">
+        <a href="/about" class="nav-btn" data-page="about">About</a>
+        <a href="/projects" class="nav-btn" data-page="projects">Projects</a>
+        <a
+          href="/fun-stuff"
+          class="nav-btn"
+          id="funStuffScrollTop"
+          data-page="fun-stuff"
+          >Fun Stuff</a
+        >
+      </div>
+      <div class="topbar-actions">
+        <button type="button" id="dark-toggle" class="action-link">
+          <span class="action-icon">
+            <i class="fa-solid fa-sun dark-icon-sun" aria-hidden="true"></i>
+            <i class="fa-solid fa-moon dark-icon-moon" aria-hidden="true"></i>
+          </span>
+          <span class="action-label"
+            ><span class="label-light">Light</span
+            ><span class="label-dark">Dark</span></span
+          >
         </button>
+        <a
+          href="https://ko-fi.com/archkun"
+          target="_blank"
+          rel="noopener"
+          class="action-link kofi-link"
+        >
+          <span class="action-icon"
+            ><i class="fa-brands fa-ko-fi" aria-hidden="true"></i
+          ></span>
+          <span class="action-label">Ko-fi</span>
+        </a>
+        <a
+          href="https://discord.com/invite/Wxg7faaqVz"
+          target="_blank"
+          rel="noopener"
+          class="action-link discord-link"
+        >
+          <span class="action-icon"
+            ><i class="fa-brands fa-discord" aria-hidden="true"></i
+          ></span>
+          <span class="action-label">Discord</span>
+        </a>
+        <a
+          href="https://github.com/arch2kx"
+          target="_blank"
+          rel="noopener"
+          class="action-link github-link"
+        >
+          <span class="action-icon"
+            ><i class="fa-brands fa-github" aria-hidden="true"></i
+          ></span>
+          <span class="action-label">GitHub</span>
+        </a>
+        <a href="/privacy/" class="action-link privacy-link">
+          <span class="action-icon"
+            ><i class="fa-solid fa-shield-halved" aria-hidden="true"></i
+          ></span>
+          <span class="action-label">Privacy</span>
+        </a>
       </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- Projects -->
-  <section id="projects" class="page projects-main">
-    <h1 class="sr-only">Projects</h1>
-    <div class="projects-grid">
+    <main id="content">
+      <!-- Home -->
+      <section id="main" class="page main-main no-animate">
+        <h1 class="main-logo-wrap">
+          <img
+            src="images/arch_kun_ba-logo_light.webp"
+            alt="arch kun"
+            class="main-logo logo-light"
+          />
+          <img
+            src="images/arch_kun_ba-logo_dark.webp"
+            alt=""
+            class="main-logo logo-dark"
+          />
+        </h1>
+        <p class="main-tagline">
+          Hello, I like to code Blue Archive-themed projects.
+        </p>
+        <div class="main-wrap">
+          <a href="/about" class="explore-btn" data-page="about"
+            ><span>Who am I? ⇀</span></a
+          >
+          <a href="/projects" class="explore-btn" data-page="projects"
+            ><span>View My Projects ⇀</span></a
+          >
+        </div>
+      </section>
 
-      <!-- Featured -->
-      <div class="project-card card-featured card-accent-featured">
-        <div class="card-info">
-          <p class="card-flag"><i class="fa-solid fa-star" aria-hidden="true"></i> Featured</p>
-          <img class="card-corner-icon" src="images/bamg_icon.webp" alt="">
-          <p class="card-title">Blue Archive Merch Guesser</p>
-          <p class="card-desc">Guess the price of real Blue Archive merch from AmiAmi listings!</p>
-          <div class="card-links">
-            <a href="https://arch2kx.github.io/ba-merch-guesser/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
-            </a>
-            <a href="https://github.com/arch2kx/ba-merch-guesser/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+      <!-- About -->
+      <section id="about" class="page about-main">
+        <div class="about-section">
+          <div class="about-content">
+            <h1>So, whoami?</h1>
+            <div>
+              <p>
+                Hello there, My name is Arch (totally not named after the Linux
+                distribution).<br />I make projects as a hobby and also do some
+                3D modeling/texturing works.
+              </p>
+              <p>
+                I also enjoy playing some Blue Archive and developing a Roblox
+                FPS project as well.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="about-img-btn"
+              onclick="ninNin()"
+              aria-label="Izuna (plays a sound)"
+            >
+              <img
+                class="about-img"
+                src="images/izuna_nin.webp"
+                width="250"
+                height="200"
+                alt=""
+              />
+            </button>
           </div>
         </div>
-        <div class="card-shot-wrap">
-          <img class="card-shot" src="images/bamg_showcase.png" alt="Blue Archive Merch Guesser screenshot">
-        </div>
-      </div>
+      </section>
 
-      <!-- Banner -->
-      <div class="project-card card-banner card-accent-royal">
-        <img class="card-corner-icon" src="images/ba-pop-int-icon.png" alt="">
-        <div class="card-body">
-          <p class="card-title">BA Pop-Up Interrupter</p>
-          <p class="card-desc">Chrome/Firefox extension of Blue Archive characters interrupting via a pop-up!</p>
-          <div class="card-links">
-            <a href="https://chromewebstore.google.com/detail/ba-pop-up-interrupter/cfhhacjkgodmapofbcgihopacekcehlp?authuser=1&hl=en"
-              class="card-link-btn" target="_blank" rel="noopener">
-              <img src="images/chrome-icon.webp" alt=""> Chrome
-            </a>
-            <a href="https://addons.mozilla.org/en-US/firefox/addon/ba-pop-up-interrupter/" class="card-link-btn"
-              target="_blank" rel="noopener">
-              <img src="images/firefox-icon.webp" alt=""> Firefox
-            </a>
-            <a href="https://github.com/arch2kx/BA-Popup-Interrupter" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+      <!-- Projects -->
+      <section id="projects" class="page projects-main">
+        <h1 class="sr-only">Projects</h1>
+        <div class="projects-grid">
+          <!-- Featured -->
+          <div class="project-card card-featured card-accent-featured">
+            <div class="card-info">
+              <p class="card-flag">
+                <i class="fa-solid fa-star" aria-hidden="true"></i> Featured
+              </p>
+              <img
+                class="card-corner-icon"
+                src="images/bamg_icon.webp"
+                alt=""
+              />
+              <p class="card-title">Blue Archive Merch Guesser</p>
+              <p class="card-desc">
+                Guess the price of real Blue Archive merch from AmiAmi listings!
+              </p>
+              <div class="card-links">
+                <a
+                  href="https://arch2kx.github.io/ba-merch-guesser/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
+                </a>
+                <a
+                  href="https://github.com/arch2kx/ba-merch-guesser/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
+            <div class="card-shot-wrap">
+              <img
+                class="card-shot"
+                src="images/bamg_showcase.png"
+                alt="Blue Archive Merch Guesser screenshot"
+              />
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="card-head">
-          <p class="card-title">Eden Treaty Pandemonium</p>
-          <img class="card-corner-icon" src="images/mika_etp_icon.webp" alt="">
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Get the Trinity-loving princess to fight against Gehenna students!</p>
-          <div class="card-links">
-            <a href="https://arch-kun.itch.io/etp-raylib" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">itch.io</a>
-            <a href="https://github.com/arch2kx/ETPRaylib/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+          <!-- Banner -->
+          <div class="project-card card-banner card-accent-royal">
+            <img
+              class="card-corner-icon"
+              src="images/ba-pop-int-icon.png"
+              alt=""
+            />
+            <div class="card-body">
+              <p class="card-title">BA Pop-Up Interrupter</p>
+              <p class="card-desc">
+                Chrome/Firefox extension of Blue Archive characters interrupting
+                via a pop-up!
+              </p>
+              <div class="card-links">
+                <a
+                  href="https://chromewebstore.google.com/detail/ba-pop-up-interrupter/cfhhacjkgodmapofbcgihopacekcehlp?authuser=1&hl=en"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img src="images/chrome-icon.webp" alt="" /> Chrome
+                </a>
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/ba-pop-up-interrupter/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img src="images/firefox-icon.webp" alt="" /> Firefox
+                </a>
+                <a
+                  href="https://github.com/arch2kx/BA-Popup-Interrupter"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="card-head">
-          <p class="card-title">Aronasay</p>
-          <img class="card-corner-icon" src="images/arona.webp" alt="">
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Cowsay but Arona from Blue Archive!</p>
-          <div class="card-links">
-            <a href="https://arch2kx.github.io/aronasay/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
-            </a>
-            <a href="https://github.com/arch2kx/aronasay/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+          <div class="project-card">
+            <div class="card-head">
+              <p class="card-title">Eden Treaty Pandemonium</p>
+              <img
+                class="card-corner-icon"
+                src="images/mika_etp_icon.webp"
+                alt=""
+              />
+            </div>
+            <div class="card-body">
+              <p class="card-desc">
+                Get the Trinity-loving princess to fight against Gehenna
+                students!
+              </p>
+              <div class="card-links">
+                <a
+                  href="https://arch-kun.itch.io/etp-raylib"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >itch.io</a
+                >
+                <a
+                  href="https://github.com/arch2kx/ETPRaylib/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="card-head">
-          <p class="card-title">Blue Archive Student Quiz</p>
-          <img class="card-corner-icon" src="images/ba_student_quiz_icon.webp" alt="">
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Test your Blue Archive knowledge on students' traits!</p>
-          <div class="card-links">
-            <a href="https://arch2kx.github.io/archs-ba-student-quiz/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
-            </a>
-            <a href="https://github.com/arch2kx/archs-ba-student-quiz/" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+          <div class="project-card">
+            <div class="card-head">
+              <p class="card-title">Aronasay</p>
+              <img class="card-corner-icon" src="images/arona.webp" alt="" />
+            </div>
+            <div class="card-body">
+              <p class="card-desc">Cowsay but Arona from Blue Archive!</p>
+              <div class="card-links">
+                <a
+                  href="https://arch2kx.github.io/aronasay/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
+                </a>
+                <a
+                  href="https://github.com/arch2kx/aronasay/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="card-head">
-          <p class="card-title">SeiaSinger Fork</p>
-          <img class="card-corner-icon" src="images/ss_fork_icon.webp" alt="">
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Chrome/Firefox extension of Seia singing on a browser tab with video.</p>
-          <div class="card-links">
-            <a href="https://chromewebstore.google.com/detail/seiasinger-fork/aaaimdncfahhjnmfcgcfkahemmaepnha"
-              class="card-link-btn" target="_blank" rel="noopener">
-              <img src="images/chrome-icon.webp" alt=""> Chrome
-            </a>
-            <a href="https://addons.mozilla.org/en-US/firefox/addon/seiasinger-fork/" class="card-link-btn"
-              target="_blank" rel="noopener">
-              <img src="images/firefox-icon.webp" alt=""> Firefox
-            </a>
-            <a href="https://github.com/arch2kx/SeiaSingerFork" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+          <div class="project-card">
+            <div class="card-head">
+              <p class="card-title">Blue Archive Student Quiz</p>
+              <img
+                class="card-corner-icon"
+                src="images/ba_student_quiz_icon.webp"
+                alt=""
+              />
+            </div>
+            <div class="card-body">
+              <p class="card-desc">
+                Test your Blue Archive knowledge on students' traits!
+              </p>
+              <div class="card-links">
+                <a
+                  href="https://arch2kx.github.io/archs-ba-student-quiz/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-solid fa-globe" aria-hidden="true"></i> Website
+                </a>
+                <a
+                  href="https://github.com/arch2kx/archs-ba-student-quiz/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="card-head">
-          <p class="card-title">Sechify TypeScript</p>
-          <img class="card-corner-icon" src="images/sechifyts-icon-128.webp" alt="">
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Chrome/Firefox Extension forked from Chikenuwu's Sechify.</p>
-          <div class="card-links">
-            <a href="https://chromewebstore.google.com/detail/sechify-typescript/cbhcngldimloilgbhaikkndnjogdjdap"
-              class="card-link-btn" target="_blank" rel="noopener">
-              <img src="images/chrome-icon.webp" alt=""> Chrome
-            </a>
-            <a href="https://addons.mozilla.org/en-US/firefox/addon/sechify-typescript/" class="card-link-btn"
-              target="_blank" rel="noopener">
-              <img src="images/firefox-icon.webp" alt=""> Firefox
-            </a>
-            <a href="https://github.com/arch2kx/SechifyTS" class="card-link-btn" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
-            </a>
+          <div class="project-card">
+            <div class="card-head">
+              <p class="card-title">SeiaSinger Fork</p>
+              <img
+                class="card-corner-icon"
+                src="images/ss_fork_icon.webp"
+                alt=""
+              />
+            </div>
+            <div class="card-body">
+              <p class="card-desc">
+                Chrome/Firefox extension of Seia singing on a browser tab with
+                video.
+              </p>
+              <div class="card-links">
+                <a
+                  href="https://chromewebstore.google.com/detail/seiasinger-fork/aaaimdncfahhjnmfcgcfkahemmaepnha"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img src="images/chrome-icon.webp" alt="" /> Chrome
+                </a>
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/seiasinger-fork/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img src="images/firefox-icon.webp" alt="" /> Firefox
+                </a>
+                <a
+                  href="https://github.com/arch2kx/SeiaSingerFork"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Only show this if working on an actual project!
+          <div class="project-card">
+            <div class="card-head">
+              <p class="card-title">Sechify TypeScript</p>
+              <img
+                class="card-corner-icon"
+                src="images/sechifyts-icon-128.webp"
+                alt=""
+              />
+            </div>
+            <div class="card-body">
+              <p class="card-desc">
+                Chrome/Firefox Extension forked from Chikenuwu's Sechify.
+              </p>
+              <div class="card-links">
+                <a
+                  href="https://chromewebstore.google.com/detail/sechify-typescript/cbhcngldimloilgbhaikkndnjogdjdap"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img src="images/chrome-icon.webp" alt="" /> Chrome
+                </a>
+                <a
+                  href="https://addons.mozilla.org/en-US/firefox/addon/sechify-typescript/"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <img src="images/firefox-icon.webp" alt="" /> Firefox
+                </a>
+                <a
+                  href="https://github.com/arch2kx/SechifyTS"
+                  class="card-link-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Only show this if working on an actual project!
 
       <div class="project-card card-soon">
         <div class="card-head">
@@ -304,101 +579,154 @@
         <img class="soon-barrier" src="images/construction.webp" alt="" aria-hidden="true">
       </div>
       -->
-    </div>
-  </section>
-
-  <!-- Fun Stuff -->
-  <section id="fun-stuff" class="page funstuff-main">
-    <div class="funstuff-inner">
-
-      <header class="funstuff-header">
-        <h1 class="funstuff-title">Fun Stuff</h1>
-        <p class="funstuff-subtitle">Place where I experiment with cool stuff.</p>
-      </header>
-
-      <!-- Guest Book section -->
-      <div class="funstuff-section">
-        <h2 class="funstuff-section-label">Guest Book</h2>
-
-        <form id="guestbook-form" class="guestbook-form">
-          <!-- Bots fill this and humans don't see it -->
-          <input type="text" id="guestbook-honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-          <div class="guestbook-field">
-            <label for="guestbook-name" class="sr-only">Your name</label>
-            <input type="text" id="guestbook-name" placeholder="Your name" maxlength="50" required autocomplete="off"
-              spellcheck="false" aria-describedby="guestbook-name-count">
-            <span class="guestbook-count" id="guestbook-name-count">0 / 50</span>
-          </div>
-
-          <div class="guestbook-field">
-            <label for="guestbook-message" class="sr-only">Message</label>
-            <textarea id="guestbook-message" placeholder="Leave a message..." maxlength="280" required
-              spellcheck="true" aria-describedby="guestbook-msg-count"></textarea>
-            <span class="guestbook-count" id="guestbook-msg-count">0 / 280</span>
-          </div>
-
-          <div id="guestbook-captcha" class="guestbook-captcha"></div>
-
-          <button type="submit" id="guestbook-submit" class="guestbook-submit-btn">Sign</button>
-          <p id="guestbook-status" class="guestbook-status" aria-live="polite"></p>
-        </form>
-
-        <div id="guestbook-entries" class="guestbook-entries">
-          <p class="guestbook-empty">Loading entries...</p>
         </div>
-        <a data-page="guestbook" class="guestbook-view-all" href="/guestbook">View all →</a>
-      </div>
+      </section>
 
-      <!-- Terminal section -->
-      <div class="funstuff-section">
-        <h2 class="funstuff-section-label funstuff-section-label-center">Terminal Emulator</h2>
-        <div class="funstuff-terminal-wrap">
-          <div class="terminal">
-            <div id="output" role="log" aria-label="Terminal output"></div>
-            <div class="input-line">
-              <span class="c-val">%</span>
-              <input type="text" id="commandInput" autocomplete="off" spellcheck="false" aria-label="Terminal command">
+      <!-- Fun Stuff -->
+      <section id="fun-stuff" class="page funstuff-main">
+        <div class="funstuff-inner">
+          <header class="funstuff-header">
+            <h1 class="funstuff-title">Fun Stuff</h1>
+            <p class="funstuff-subtitle">
+              Place where I experiment with cool stuff.
+            </p>
+          </header>
+
+          <!-- Guest Book section -->
+          <div class="funstuff-section">
+            <h2 class="funstuff-section-label">Guest Book</h2>
+
+            <form id="guestbook-form" class="guestbook-form">
+              <!-- Bots fill this and humans don't see it -->
+              <input
+                type="text"
+                id="guestbook-honeypot"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+
+              <div class="guestbook-field">
+                <label for="guestbook-name" class="sr-only">Your name</label>
+                <input
+                  type="text"
+                  id="guestbook-name"
+                  placeholder="Your name"
+                  maxlength="50"
+                  required
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-describedby="guestbook-name-count"
+                />
+                <span class="guestbook-count" id="guestbook-name-count"
+                  >0 / 50</span
+                >
+              </div>
+
+              <div class="guestbook-field">
+                <label for="guestbook-message" class="sr-only">Message</label>
+                <textarea
+                  id="guestbook-message"
+                  placeholder="Leave a message..."
+                  maxlength="280"
+                  required
+                  spellcheck="true"
+                  aria-describedby="guestbook-msg-count"
+                ></textarea>
+                <span class="guestbook-count" id="guestbook-msg-count"
+                  >0 / 280</span
+                >
+              </div>
+
+              <div id="guestbook-captcha" class="guestbook-captcha"></div>
+
+              <button
+                type="submit"
+                id="guestbook-submit"
+                class="guestbook-submit-btn"
+              >
+                Sign
+              </button>
+              <p
+                id="guestbook-status"
+                class="guestbook-status"
+                aria-live="polite"
+              ></p>
+            </form>
+
+            <div id="guestbook-entries" class="guestbook-entries">
+              <p class="guestbook-empty">Loading entries...</p>
             </div>
+            <a
+              data-page="guestbook"
+              class="guestbook-view-all"
+              href="/guestbook"
+              >View all →</a
+            >
+          </div>
+
+          <!-- Terminal section -->
+          <div class="funstuff-section">
+            <h2 class="funstuff-section-label funstuff-section-label-center">
+              Terminal Emulator
+            </h2>
+            <div class="funstuff-terminal-wrap">
+              <div class="terminal">
+                <div id="output" role="log" aria-label="Terminal output"></div>
+                <div class="input-line">
+                  <span class="c-val">%</span>
+                  <input
+                    type="text"
+                    id="commandInput"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-label="Terminal command"
+                  />
+                </div>
+              </div>
+            </div>
+            <p class="funstuff-no-terminal">
+              Terminal requires a desktop browser.
+            </p>
           </div>
         </div>
-        <p class="funstuff-no-terminal">Terminal requires a desktop browser.</p>
-      </div>
+      </section>
 
-    </div>
-  </section>
+      <!-- Guestbook Archive -->
+      <section id="guestbook" class="page guestbook-archive-main">
+        <div class="guestbook-archive-inner">
+          <header class="guestbook-archive-header">
+            <a data-page="fun-stuff" class="guestbook-back" href="/fun-stuff"
+              >← Fun Stuff</a
+            >
+            <h1 class="guestbook-archive-title">Guest Book</h1>
+            <p class="guestbook-archive-sub">Everyone who signed the book.</p>
+          </header>
+          <div id="guestbook-archive-entries" class="guestbook-entries">
+            <p class="guestbook-empty">Loading entries...</p>
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <!-- Guestbook Archive -->
-  <section id="guestbook" class="page guestbook-archive-main">
-    <div class="guestbook-archive-inner">
-      <header class="guestbook-archive-header">
-        <a data-page="fun-stuff" class="guestbook-back" href="/fun-stuff">← Fun Stuff</a>
-        <h1 class="guestbook-archive-title">Guest Book</h1>
-        <p class="guestbook-archive-sub">Everyone who signed the book.</p>
-      </header>
-      <div id="guestbook-archive-entries" class="guestbook-entries">
-        <p class="guestbook-empty">Loading entries...</p>
-      </div>
-    </div>
-  </section>
+    <footer class="site-footer">
+      <p>
+        &copy; 2026 arch2kx. Licensed under AGPL-3.0. <br />Arona's Room
+        background courtesy of NEXON/Yostar Games.
+      </p>
+    </footer>
 
-  </main>
+    <script>
+      // Copied from the Koyuki Niha site (just funny lol)
+      const ninAudio = new Audio("sounds/izuna-nin-nin.mp3");
+      ninAudio.preload = "auto";
+      ninAudio.volume = 0.3;
 
-  <footer class="site-footer">
-    <p>&copy; 2026 arch2kx. Licensed under AGPL-3.0. <br>Arona's Room background courtesy of NEXON/Yostar Games.</p>
-  </footer>
-
-  <script>
-    // Copied from the Koyuki Niha site (just funny lol)
-    const ninAudio = new Audio("sounds/izuna-nin-nin.mp3");
-    ninAudio.preload = "auto";
-    ninAudio.volume = 0.3;
-
-    function ninNin() {
-      ninAudio.currentTime = 0;
-      ninAudio.play();
-    }
-  </script>
-</body>
-
+      function ninNin() {
+        ninAudio.currentTime = 0;
+        ninAudio.play();
+      }
+    </script>
+  </body>
 </html>
