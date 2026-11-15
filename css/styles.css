@@ -1101,6 +1101,10 @@ html.theme-fading .main-logo {
   display: none;
 }
 
+.cmd-line {
+  margin-bottom: 0.5em;
+}
+
 .input-line {
   display: flex;
   gap: 0.5ch;
@@ -1119,39 +1123,44 @@ html.theme-fading .main-logo {
   caret-color: #ccc;
 }
 
-/* x256-style color classes */
+/* Tokyo Night color classes */
 .c-arch {
-  color: #1dc5ff;
+  color: #7aa2f7;
   font-weight: 800;
 }
 
 .c-arch-reg {
-  color: #1dc5ff;
+  color: #7aa2f7;
+  font-weight: 800;
+}
+
+.c-cyan {
+  color: #7dcfff;
   font-weight: 800;
 }
 
 .c-options {
-  color: #37ff9a;
+  color: #9ece6a;
   font-weight: 500;
 }
 
 .c-val {
-  color: #f2f2f2;
+  color: #c0caf5;
   font-weight: 500;
 }
 
 .c-bold {
-  color: #1dc5ff;
+  color: #7aa2f7;
   font-weight: 500;
 }
 
 .c-dim {
-  color: #e6e6e6;
+  color: #565f89;
   font-weight: 500;
 }
 
 .c-err {
-  color: #ff5737;
+  color: #f7768e;
   font-weight: 500;
 }
 
