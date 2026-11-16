@@ -228,7 +228,7 @@ function bfetchOutput() {
     const vp = `${window.innerWidth}x${window.innerHeight}`;
     const depth = `${window.screen.colorDepth}bpp`;
     const info = [
-        `<span class="c-arch">you</span><span class="c-dim">@</span><span class="c-arch">browser</span>`,
+        `<span class="c-arch">you</span><span class="c-val">@</span><span class="c-arch">browser</span>`,
         `<span class="c-dim">-----------</span>`,
         `<b class="c-arch">Browser:</b> <span class="c-val">${escapeHtml(browser)} ${escapeHtml(bVer)}</span>`,
         `<b class="c-arch">OS:</b> <span class="c-val">${escapeHtml(os)}</span>`,
